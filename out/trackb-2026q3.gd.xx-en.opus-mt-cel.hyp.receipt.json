@@ -1,0 +1,61 @@
+{
+  "benchmark_only": false,
+  "corpus": "trackb-2026q3",
+  "corpus_manifest_sha256": "1ddafd2fc34ab0763bfd8db184a468d28a7dfc05e519a0c583fa3f624e948941",
+  "created_utc": "2026-07-29T21:49:14+00:00",
+  "decoding": {
+    "do_sample": false,
+    "max_new_tokens": 256,
+    "num_beams": 4
+  },
+  "decoding_declared": {
+    "do_sample": false,
+    "max_new_tokens": 256,
+    "num_beams": 4
+  },
+  "decoding_declared_sha256": "155f234165a16aa99b8a2060922c0c12a145e2ca3453a6a38ed6face23c280d9",
+  "decoding_deviations": [],
+  "decoding_sha256": "155f234165a16aa99b8a2060922c0c12a145e2ca3453a6a38ed6face23c280d9",
+  "direction": "xx-en",
+  "eval_input_sha256": "e35bacfe4f1e3c0c0f87056fcc426d9c482f8d707ee0b67ab611dd61d36d09f5",
+  "eval_reference_sha256": "dccfb2ede4f429162160aeb3e96ae782cf8c2913c1f1b0e952e257b03d1800f8",
+  "fails": 0,
+  "harness_version": "a5b3b8c",
+  "hypothesis_file": "trackb-2026q3.gd.xx-en.opus-mt-cel.hyp",
+  "hypothesis_sha256": "138cfe35f6904b21f169d2c66bbc46cfbb4a8ae8c93f837a6779c406882e2920",
+  "lang": "gd",
+  "license": "Apache-2.0",
+  "limit": null,
+  "method_version": "v2",
+  "model_reported": "Helsinki-NLP/opus-mt-cel-en@f536f454b132",
+  "model_reported_variants": [
+    "Helsinki-NLP/opus-mt-cel-en@f536f454b132"
+  ],
+  "model_requested": "Helsinki-NLP/opus-mt-cel-en",
+  "n": 122,
+  "partial_slice": false,
+  "pin_status": "verified",
+  "prompt_sha256": null,
+  "prompt_template": null,
+  "provider": "hf_local",
+  "reasoning": null,
+  "revision": "f536f454b1320ff4bfed9435845bd960390c81cf",
+  "runtime": {
+    "python": "3.14.3",
+    "sacrebleu": "2.6.0",
+    "torch": "2.13.0",
+    "transformers": "5.14.1"
+  },
+  "schema": "celticbench.receipt.v2",
+  "system": "opus-mt-cel",
+  "tier": "open-anchor",
+  "usage": {
+    "cache_hits": 0,
+    "completion_tokens": 0,
+    "prompt_tokens": 0,
+    "requests": 0,
+    "source_chars": 30515,
+    "total_tokens": 0
+  },
+  "vendor": "Helsinki-NLP"
+}
