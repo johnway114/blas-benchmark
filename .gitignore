@@ -1,0 +1,19 @@
+# Virtualenv, caches
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Credentials
+.env
+
+# Downloaded corpora and built eval sets: fetched from upstream by
+# `bench.py prepare`, never redistributed. Committed manifests pin their
+# hashes.
+data/
+eval/
+
+# Run outputs: hypotheses and caches stay local; receipts for published
+# runs are committed (they are the audit trail). scores/ is committed.
+out/*
+!out/*.receipt.json

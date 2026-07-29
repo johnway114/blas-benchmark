@@ -1,0 +1,7 @@
+# Extra: local open-weight anchor systems (nllb-600m, opus-mt-cel,
+# madlad400-3b). Not needed for API-only benchmarking.
+torch>=2.4
+transformers>=4.57
+sentencepiece
+sacremoses
+protobuf
