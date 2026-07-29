@@ -1,0 +1,30 @@
+{
+  "benchmark_only": false,
+  "corpus": "tatoeba",
+  "corpus_manifest_sha256": "3624d2b6c04fc2805601b5735664d1f2594c26f71cd44544369229d54e1c0847",
+  "created_utc": "2026-07-29T16:56:52+00:00",
+  "decoding": {
+    "do_sample": false,
+    "max_new_tokens": 256,
+    "num_beams": 4
+  },
+  "decoding_sha256": "155f234165a16aa99b8a2060922c0c12a145e2ca3453a6a38ed6face23c280d9",
+  "direction": "en-xx",
+  "fails": 0,
+  "harness_version": "534c637",
+  "hypothesis_sha256": "989598881638c5ff63f0b78740d2ce6fecade5453853800753561a4934bc705b",
+  "lang": "kw",
+  "license": "Apache-2.0",
+  "limit": 8,
+  "model_reported": "Helsinki-NLP/opus-mt-en-cel@e79438534e0b",
+  "model_requested": "Helsinki-NLP/opus-mt-en-cel",
+  "n": 8,
+  "pin_status": "verified",
+  "prompt_sha256": null,
+  "prompt_template": null,
+  "provider": "hf_local",
+  "revision": "e79438534e0be0f4efa2585e3b24393bf40def95",
+  "schema": "celticbench.receipt.v1",
+  "system": "opus-mt-cel",
+  "vendor": "Helsinki-NLP"
+}

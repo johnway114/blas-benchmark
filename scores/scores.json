@@ -1,0 +1,35 @@
+{
+  "excluded": [],
+  "generated_utc": "2026-07-29T16:56:53+00:00",
+  "results": [
+    {
+      "benchmark_only": false,
+      "blank_rate": 0.0,
+      "bleu": 1.65,
+      "chrf_pp": 9.78,
+      "copy_rate": 0.0,
+      "corpus": "tatoeba",
+      "created_utc": "2026-07-29T16:56:52+00:00",
+      "direction": "en-xx",
+      "fails": 0,
+      "harness_version": "534c637",
+      "label": "Opus-MT en-cel / cel-en (anchor)",
+      "lang": "kw",
+      "language_name": "Cornish",
+      "license": "Apache-2.0",
+      "model_reported": "Helsinki-NLP/opus-mt-en-cel@e79438534e0b",
+      "n": 8,
+      "off_target_confidence_threshold": 0.5,
+      "off_target_expected_lang": "kw",
+      "off_target_rate": 0.75,
+      "partial_slice": true,
+      "pin_status": "verified",
+      "receipt": "tatoeba.kw.en-xx.opus-mt-cel.hyp.receipt.json",
+      "repetition_rate": 0.0,
+      "system": "opus-mt-cel",
+      "tier": "open-anchor",
+      "vendor": "Helsinki-NLP"
+    }
+  ],
+  "schema": "celticbench.scores.v1"
+}
