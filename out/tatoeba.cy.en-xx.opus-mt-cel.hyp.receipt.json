@@ -1,0 +1,61 @@
+{
+  "benchmark_only": false,
+  "corpus": "tatoeba",
+  "corpus_manifest_sha256": "08b52d3970da3fca29b4820d4b128112cdca4d0b1b420717aa814cde834d13d1",
+  "created_utc": "2026-07-29T19:56:39+00:00",
+  "decoding": {
+    "do_sample": false,
+    "max_new_tokens": 256,
+    "num_beams": 4
+  },
+  "decoding_declared": {
+    "do_sample": false,
+    "max_new_tokens": 256,
+    "num_beams": 4
+  },
+  "decoding_declared_sha256": "155f234165a16aa99b8a2060922c0c12a145e2ca3453a6a38ed6face23c280d9",
+  "decoding_deviations": [],
+  "decoding_sha256": "155f234165a16aa99b8a2060922c0c12a145e2ca3453a6a38ed6face23c280d9",
+  "direction": "en-xx",
+  "eval_input_sha256": "ab5ac54587bcac3dd6e1ab3f3702286748326e66f78c5501001cf06e8e7cb216",
+  "eval_reference_sha256": "a34e87d022c4e0880336f64ad31d294e96f03a11737a73a511338b71ad82322c",
+  "fails": 0,
+  "harness_version": "cc3c209-dirty",
+  "hypothesis_file": "tatoeba.cy.en-xx.opus-mt-cel.hyp",
+  "hypothesis_sha256": "2cbecbea6d9ebe4a6d64e8af7e8ef68d60ebdd9f3e73aeb59226c64221ca3f05",
+  "lang": "cy",
+  "license": "Apache-2.0",
+  "limit": null,
+  "method_version": "v2",
+  "model_reported": "Helsinki-NLP/opus-mt-en-cel@e79438534e0b",
+  "model_reported_variants": [
+    "Helsinki-NLP/opus-mt-en-cel@e79438534e0b"
+  ],
+  "model_requested": "Helsinki-NLP/opus-mt-en-cel",
+  "n": 1631,
+  "partial_slice": false,
+  "pin_status": "verified",
+  "prompt_sha256": null,
+  "prompt_template": null,
+  "provider": "hf_local",
+  "reasoning": null,
+  "revision": "e79438534e0be0f4efa2585e3b24393bf40def95",
+  "runtime": {
+    "python": "3.14.3",
+    "sacrebleu": "2.6.0",
+    "torch": "2.13.0",
+    "transformers": "5.14.1"
+  },
+  "schema": "celticbench.receipt.v2",
+  "system": "opus-mt-cel",
+  "tier": "open-anchor",
+  "usage": {
+    "cache_hits": 0,
+    "completion_tokens": 0,
+    "prompt_tokens": 0,
+    "requests": 0,
+    "source_chars": 44949,
+    "total_tokens": 0
+  },
+  "vendor": "Helsinki-NLP"
+}

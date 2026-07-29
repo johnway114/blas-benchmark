@@ -1,0 +1,73 @@
+{
+  "corpus": "trackb-2026q3",
+  "cutoff": "2026-02-16",
+  "extractor_version": "trackb-extract-1",
+  "harvest_date": "2026-07-29",
+  "harvested_at": "2026-07-29T19:43:53+00:00",
+  "languages": {
+    "cy": {
+      "contract_sha256": "3917db1598622413a3f4d102364eea723974819a02969df6ab09fa105b1dcce0",
+      "documents": 32,
+      "language_name": "Welsh",
+      "n": 300,
+      "rejected": {
+        "duplicate": 5,
+        "too_long": 1,
+        "too_short": 7
+      },
+      "sources": [
+        "gov-wales-announcements"
+      ]
+    },
+    "ga": {
+      "contract_sha256": "800cd7964d7b0f54bff01f5bcf3d3fa1ad7cb8af30053ad8262a79da80a1e039",
+      "documents": 11,
+      "language_name": "Irish",
+      "n": 300,
+      "rejected": {
+        "duplicate": 59,
+        "identical": 31,
+        "too_long": 30,
+        "too_short": 595
+      },
+      "sources": [
+        "eurlex-oj-secondary-legislation"
+      ]
+    },
+    "gd": {
+      "contract_sha256": "1ddafd2fc34ab0763bfd8db184a468d28a7dfc05e519a0c583fa3f624e948941",
+      "documents": 10,
+      "language_name": "Scottish Gaelic",
+      "n": 122,
+      "rejected": {
+        "identical": 25,
+        "length_ratio": 14,
+        "too_short": 46
+      },
+      "sources": [
+        "bord-na-gaidhlig-news",
+        "mg-alba-news"
+      ]
+    }
+  },
+  "limit_per_lang": 300,
+  "schema": "celticbench.trackb-slice.v1",
+  "slice": "2026q3",
+  "unavailable": [
+    {
+      "lang": "br",
+      "language_name": "Breton",
+      "reason": "Breton public-sector bilingualism is French-Breton, not English-Breton. Ofis Publik ar Brezhoneg (brezhoneg.bzh) serves Breton and French only -- its /en/ path 404s -- and Region Bretagne (bretagne.bzh) refuses automated requests outright. No official publisher of parallel English/Breton text was found."
+    },
+    {
+      "lang": "gv",
+      "language_name": "Manx",
+      "reason": "The Isle of Man Government publishes in English; gov.im has no Manx language section to mirror. Culture Vannin, the statutory Manx culture body, publishes about Manx in English rather than issuing the same document in both languages. No dated parallel English/Manx stream exists."
+    },
+    {
+      "lang": "kw",
+      "language_name": "Cornish",
+      "reason": "Cornwall Council's Cornish language pages are a small static set with no Cornish-language mirror of its dated publications, and no Cornish public body issues a parallel English/Cornish publication stream. Cornish revival material is produced as Cornish-only or English-only."
+    }
+  ]
+}

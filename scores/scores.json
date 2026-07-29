@@ -1,35 +1,2830 @@
 {
+  "corpora": [
+    "flores",
+    "tatoeba",
+    "trackb-2026q3"
+  ],
+  "coverage": [
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "google-translate-v2"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "google-translate-v2"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "google-translate-v2"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "google-translate-v2"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "google-translate-v2"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "google-translate-v2"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "google-translate-v2"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "google-translate-v2"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": "Google's current NMT language list has no Manx or Cornish; the consumer web UI is not the API contract",
+      "supported": false,
+      "system": "google-translate-v2"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": "Google's current NMT language list has no Manx or Cornish; the consumer web UI is not the API contract",
+      "supported": false,
+      "system": "google-translate-v2"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": "Google's current NMT language list has no Manx or Cornish; the consumer web UI is not the API contract",
+      "supported": false,
+      "system": "google-translate-v2"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": "Google's current NMT language list has no Manx or Cornish; the consumer web UI is not the API contract",
+      "supported": false,
+      "system": "google-translate-v2"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "google-translation-llm"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "google-translation-llm"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "google-translation-llm"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "google-translation-llm"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "google-translation-llm"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "google-translation-llm"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": "Translation LLM lists only cy (plus experimental ga/gd)",
+      "supported": false,
+      "system": "google-translation-llm"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": "Translation LLM lists only cy (plus experimental ga/gd)",
+      "supported": false,
+      "system": "google-translation-llm"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": "Translation LLM lists only cy (plus experimental ga/gd)",
+      "supported": false,
+      "system": "google-translation-llm"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": "Translation LLM lists only cy (plus experimental ga/gd)",
+      "supported": false,
+      "system": "google-translation-llm"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": "Translation LLM lists only cy (plus experimental ga/gd)",
+      "supported": false,
+      "system": "google-translation-llm"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": "Translation LLM lists only cy (plus experimental ga/gd)",
+      "supported": false,
+      "system": "google-translation-llm"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "deepl"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "deepl"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "deepl"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "deepl"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": "DeepL lists no Scottish Gaelic, Manx or Cornish",
+      "supported": false,
+      "system": "deepl"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": "DeepL lists no Scottish Gaelic, Manx or Cornish",
+      "supported": false,
+      "system": "deepl"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "deepl"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "deepl"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": "DeepL lists no Scottish Gaelic, Manx or Cornish",
+      "supported": false,
+      "system": "deepl"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": "DeepL lists no Scottish Gaelic, Manx or Cornish",
+      "supported": false,
+      "system": "deepl"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": "DeepL lists no Scottish Gaelic, Manx or Cornish",
+      "supported": false,
+      "system": "deepl"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": "DeepL lists no Scottish Gaelic, Manx or Cornish",
+      "supported": false,
+      "system": "deepl"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "azure-translator"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "azure-translator"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "azure-translator"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "azure-translator"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": "Azure lists only Irish and Welsh of the six",
+      "supported": false,
+      "system": "azure-translator"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": "Azure lists only Irish and Welsh of the six",
+      "supported": false,
+      "system": "azure-translator"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": "Azure lists only Irish and Welsh of the six",
+      "supported": false,
+      "system": "azure-translator"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": "Azure lists only Irish and Welsh of the six",
+      "supported": false,
+      "system": "azure-translator"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": "Azure lists only Irish and Welsh of the six",
+      "supported": false,
+      "system": "azure-translator"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": "Azure lists only Irish and Welsh of the six",
+      "supported": false,
+      "system": "azure-translator"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": "Azure lists only Irish and Welsh of the six",
+      "supported": false,
+      "system": "azure-translator"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": "Azure lists only Irish and Welsh of the six",
+      "supported": false,
+      "system": "azure-translator"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "aws-translate"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "aws-translate"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "aws-translate"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "aws-translate"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": "Amazon Translate lists only Irish and Welsh of the six",
+      "supported": false,
+      "system": "aws-translate"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": "Amazon Translate lists only Irish and Welsh of the six",
+      "supported": false,
+      "system": "aws-translate"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": "Amazon Translate lists only Irish and Welsh of the six",
+      "supported": false,
+      "system": "aws-translate"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": "Amazon Translate lists only Irish and Welsh of the six",
+      "supported": false,
+      "system": "aws-translate"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": "Amazon Translate lists only Irish and Welsh of the six",
+      "supported": false,
+      "system": "aws-translate"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": "Amazon Translate lists only Irish and Welsh of the six",
+      "supported": false,
+      "system": "aws-translate"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": "Amazon Translate lists only Irish and Welsh of the six",
+      "supported": false,
+      "system": "aws-translate"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": "Amazon Translate lists only Irish and Welsh of the six",
+      "supported": false,
+      "system": "aws-translate"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "alibaba-mt"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "alibaba-mt"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "alibaba-mt"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "alibaba-mt"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": "Alibaba's list has no Scottish Gaelic; its `sco` is Scots, a different language, and is never substituted for gd",
+      "supported": false,
+      "system": "alibaba-mt"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": "Alibaba's list has no Scottish Gaelic; its `sco` is Scots, a different language, and is never substituted for gd",
+      "supported": false,
+      "system": "alibaba-mt"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "alibaba-mt"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "alibaba-mt"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "alibaba-mt"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "alibaba-mt"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "alibaba-mt"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "alibaba-mt"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-sol"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-sol"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-sol"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-sol"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-sol"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-sol"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-sol"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-sol"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-sol"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-sol"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-sol"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-sol"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "claude-opus-5"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "claude-opus-5"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "claude-opus-5"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "claude-opus-5"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "claude-opus-5"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "claude-opus-5"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "claude-opus-5"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "claude-opus-5"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "claude-opus-5"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "claude-opus-5"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "claude-opus-5"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "claude-opus-5"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "gemini-3.6-flash"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "gemini-3.6-flash"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "gemini-3.6-flash"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "gemini-3.6-flash"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "gemini-3.6-flash"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "gemini-3.6-flash"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "gemini-3.6-flash"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "gemini-3.6-flash"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "gemini-3.6-flash"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "gemini-3.6-flash"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "gemini-3.6-flash"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "gemini-3.6-flash"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-pro"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-pro"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-pro"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-pro"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-pro"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-pro"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-pro"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-pro"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-pro"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-pro"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-pro"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-pro"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "kimi-k3"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "kimi-k3"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "kimi-k3"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "kimi-k3"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "kimi-k3"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "kimi-k3"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "kimi-k3"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "kimi-k3"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "kimi-k3"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "kimi-k3"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "kimi-k3"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "kimi-k3"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.7-max"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.7-max"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.7-max"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.7-max"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.7-max"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.7-max"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.7-max"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.7-max"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.7-max"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.7-max"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.7-max"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.7-max"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-luna"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-luna"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-luna"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-luna"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-luna"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-luna"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-luna"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-luna"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-luna"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-luna"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-luna"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-luna"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "claude-haiku-4-5"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "claude-haiku-4-5"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "claude-haiku-4-5"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "claude-haiku-4-5"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "claude-haiku-4-5"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "claude-haiku-4-5"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "claude-haiku-4-5"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "claude-haiku-4-5"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "claude-haiku-4-5"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "claude-haiku-4-5"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "claude-haiku-4-5"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "claude-haiku-4-5"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-flash"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-flash"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-flash"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-flash"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-flash"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-flash"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-flash"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-flash"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-flash"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-flash"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-flash"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-flash"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "opus-mt-cel"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "opus-mt-cel"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "opus-mt-cel"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "opus-mt-cel"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "opus-mt-cel"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "opus-mt-cel"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "opus-mt-cel"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "opus-mt-cel"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "opus-mt-cel"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "opus-mt-cel"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "opus-mt-cel"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "opus-mt-cel"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "madlad400-3b"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "madlad400-3b"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "madlad400-3b"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "madlad400-3b"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "madlad400-3b"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "madlad400-3b"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "madlad400-3b"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "madlad400-3b"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "madlad400-3b"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "madlad400-3b"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "madlad400-3b"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "madlad400-3b"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "nllb-600m"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "nllb-600m"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "nllb-600m"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "nllb-600m"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "nllb-600m"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "nllb-600m"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "nllb-600m"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "nllb-600m"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": "NLLB-200 does not cover Manx or Cornish",
+      "supported": false,
+      "system": "nllb-600m"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": "NLLB-200 does not cover Manx or Cornish",
+      "supported": false,
+      "system": "nllb-600m"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": "NLLB-200 does not cover Manx or Cornish",
+      "supported": false,
+      "system": "nllb-600m"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": "NLLB-200 does not cover Manx or Cornish",
+      "supported": false,
+      "system": "nllb-600m"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "translategemma-4b"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": "TranslateGemma documents no Cornish, and no ga/gd into English",
+      "supported": false,
+      "system": "translategemma-4b"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": "TranslateGemma documents no Cornish, and no ga/gd into English",
+      "supported": false,
+      "system": "translategemma-4b"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": "TranslateGemma documents no Cornish, and no ga/gd into English",
+      "supported": false,
+      "system": "translategemma-4b"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "translategemma-4b"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": "TranslateGemma documents no Cornish, and no ga/gd into English",
+      "supported": false,
+      "system": "translategemma-4b"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "translategemma-4b"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "translategemma-4b"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "translategemma-4b"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "translategemma-4b"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": "TranslateGemma documents no Cornish, and no ga/gd into English",
+      "supported": false,
+      "system": "translategemma-4b"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": "TranslateGemma documents no Cornish, and no ga/gd into English",
+      "supported": false,
+      "system": "translategemma-4b"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "salamandrata-7b"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "salamandrata-7b"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "salamandrata-7b"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "salamandrata-7b"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": "SalamandraTA documents Irish and Welsh, not the other four",
+      "supported": false,
+      "system": "salamandrata-7b"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": "SalamandraTA documents Irish and Welsh, not the other four",
+      "supported": false,
+      "system": "salamandrata-7b"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": "SalamandraTA documents Irish and Welsh, not the other four",
+      "supported": false,
+      "system": "salamandrata-7b"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": "SalamandraTA documents Irish and Welsh, not the other four",
+      "supported": false,
+      "system": "salamandrata-7b"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": "SalamandraTA documents Irish and Welsh, not the other four",
+      "supported": false,
+      "system": "salamandrata-7b"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": "SalamandraTA documents Irish and Welsh, not the other four",
+      "supported": false,
+      "system": "salamandrata-7b"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": "SalamandraTA documents Irish and Welsh, not the other four",
+      "supported": false,
+      "system": "salamandrata-7b"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": "SalamandraTA documents Irish and Welsh, not the other four",
+      "supported": false,
+      "system": "salamandrata-7b"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "tiny-aya-water"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "tiny-aya-water"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "tiny-aya-water"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "tiny-aya-water"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": "Tiny Aya's published Celtic evaluation covers Irish and Welsh",
+      "supported": false,
+      "system": "tiny-aya-water"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": "Tiny Aya's published Celtic evaluation covers Irish and Welsh",
+      "supported": false,
+      "system": "tiny-aya-water"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": "Tiny Aya's published Celtic evaluation covers Irish and Welsh",
+      "supported": false,
+      "system": "tiny-aya-water"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": "Tiny Aya's published Celtic evaluation covers Irish and Welsh",
+      "supported": false,
+      "system": "tiny-aya-water"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": "Tiny Aya's published Celtic evaluation covers Irish and Welsh",
+      "supported": false,
+      "system": "tiny-aya-water"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": "Tiny Aya's published Celtic evaluation covers Irish and Welsh",
+      "supported": false,
+      "system": "tiny-aya-water"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": "Tiny Aya's published Celtic evaluation covers Irish and Welsh",
+      "supported": false,
+      "system": "tiny-aya-water"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": "Tiny Aya's published Celtic evaluation covers Irish and Welsh",
+      "supported": false,
+      "system": "tiny-aya-water"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.5-9b"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.5-9b"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.5-9b"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.5-9b"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.5-9b"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.5-9b"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.5-9b"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.5-9b"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.5-9b"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.5-9b"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.5-9b"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.5-9b"
+    }
+  ],
   "excluded": [],
-  "generated_utc": "2026-07-29T16:56:53+00:00",
+  "generated_utc": "2026-07-29T20:11:39+00:00",
+  "langid": {
+    "confidence_threshold": 0.5,
+    "model": "lid.176.ftz",
+    "model_sha256": "8f3472cfe8738a7b6099e8e999c3cbfae0dcd15696aac7d7738a8039db603e83"
+  },
+  "method_version": "v2",
+  "metric_signatures": {
+    "bleu": "BLEU|nrefs:1|case:mixed|eff:no|tok:13a|smooth:exp|version:2.6.0",
+    "chrf_pp": "chrF2++|nrefs:1|case:mixed|eff:yes|nc:6|nw:2|space:no|version:2.6.0"
+  },
   "results": [
     {
       "benchmark_only": false,
       "blank_rate": 0.0,
-      "bleu": 1.65,
-      "chrf_pp": 9.78,
-      "copy_rate": 0.0,
+      "bleu": 14.67,
+      "chrf_pp": 35.48,
+      "copy_rate": 0.0025,
       "corpus": "tatoeba",
-      "created_utc": "2026-07-29T16:56:52+00:00",
+      "created_utc": "2026-07-29T19:58:08+00:00",
+      "decoding_deviations": [],
       "direction": "en-xx",
       "fails": 0,
-      "harness_version": "534c637",
+      "harness_version": "cc3c209-dirty",
+      "hypothesis_file": "tatoeba.br.en-xx.opus-mt-cel.hyp",
+      "label": "Opus-MT en-cel / cel-en (anchor)",
+      "lang": "br",
+      "language_name": "Breton",
+      "length_ratio_band": [
+        0.5,
+        2.0
+      ],
+      "length_ratio_median": 1.0,
+      "length_ratio_n": 394,
+      "length_ratio_outlier_rate": 0.0228,
+      "length_ratio_p10": 0.692,
+      "length_ratio_p90": 1.429,
+      "license": "Apache-2.0",
+      "model_reported": "Helsinki-NLP/opus-mt-en-cel@e79438534e0b",
+      "model_requested": "Helsinki-NLP/opus-mt-en-cel",
+      "n": 394,
+      "off_target_confidence_threshold": 0.5,
+      "off_target_expected_lang": "br",
+      "off_target_n": 394,
+      "off_target_rate": 0.0635,
+      "partial_slice": false,
+      "pin_status": "verified",
+      "reasoning": null,
+      "receipt": "tatoeba.br.en-xx.opus-mt-cel.hyp.receipt.json",
+      "repetition_rate": 0.0,
+      "runtime": {
+        "python": "3.14.3",
+        "sacrebleu": "2.6.0",
+        "torch": "2.13.0",
+        "transformers": "5.14.1"
+      },
+      "system": "opus-mt-cel",
+      "tier": "open-anchor",
+      "usage": {
+        "cache_hits": 0,
+        "completion_tokens": 0,
+        "prompt_tokens": 0,
+        "requests": 0,
+        "source_chars": 9360,
+        "total_tokens": 0
+      },
+      "vendor": "Helsinki-NLP"
+    },
+    {
+      "benchmark_only": false,
+      "blank_rate": 0.0,
+      "bleu": 25.57,
+      "chrf_pp": 50.28,
+      "copy_rate": 0.0,
+      "corpus": "flores",
+      "created_utc": "2026-07-29T19:50:13+00:00",
+      "decoding_deviations": [],
+      "direction": "en-xx",
+      "fails": 0,
+      "harness_version": "cc3c209-dirty",
+      "hypothesis_file": "flores.cy.en-xx.opus-mt-cel.hyp",
+      "label": "Opus-MT en-cel / cel-en (anchor)",
+      "lang": "cy",
+      "language_name": "Welsh",
+      "length_ratio_band": [
+        0.5,
+        2.0
+      ],
+      "length_ratio_median": 1.0,
+      "length_ratio_n": 1012,
+      "length_ratio_outlier_rate": 0.0049,
+      "length_ratio_p10": 0.865,
+      "length_ratio_p90": 1.149,
+      "license": "Apache-2.0",
+      "model_reported": "Helsinki-NLP/opus-mt-en-cel@e79438534e0b",
+      "model_requested": "Helsinki-NLP/opus-mt-en-cel",
+      "n": 1012,
+      "off_target_confidence_threshold": 0.5,
+      "off_target_expected_lang": "cy",
+      "off_target_n": 1012,
+      "off_target_rate": 0.002,
+      "partial_slice": false,
+      "pin_status": "verified",
+      "reasoning": null,
+      "receipt": "flores.cy.en-xx.opus-mt-cel.hyp.receipt.json",
+      "repetition_rate": 0.0,
+      "runtime": {
+        "python": "3.14.3",
+        "sacrebleu": "2.6.0",
+        "torch": "2.13.0",
+        "transformers": "5.14.1"
+      },
+      "system": "opus-mt-cel",
+      "tier": "open-anchor",
+      "usage": {
+        "cache_hits": 0,
+        "completion_tokens": 0,
+        "prompt_tokens": 0,
+        "requests": 0,
+        "source_chars": 131966,
+        "total_tokens": 0
+      },
+      "vendor": "Helsinki-NLP"
+    },
+    {
+      "benchmark_only": false,
+      "blank_rate": 0.0,
+      "bleu": 32.69,
+      "chrf_pp": 54.89,
+      "copy_rate": 0.0086,
+      "corpus": "tatoeba",
+      "created_utc": "2026-07-29T19:56:39+00:00",
+      "decoding_deviations": [],
+      "direction": "en-xx",
+      "fails": 0,
+      "harness_version": "cc3c209-dirty",
+      "hypothesis_file": "tatoeba.cy.en-xx.opus-mt-cel.hyp",
+      "label": "Opus-MT en-cel / cel-en (anchor)",
+      "lang": "cy",
+      "language_name": "Welsh",
+      "length_ratio_band": [
+        0.5,
+        2.0
+      ],
+      "length_ratio_median": 1.08,
+      "length_ratio_n": 1631,
+      "length_ratio_outlier_rate": 0.0067,
+      "length_ratio_p10": 0.852,
+      "length_ratio_p90": 1.385,
+      "license": "Apache-2.0",
+      "model_reported": "Helsinki-NLP/opus-mt-en-cel@e79438534e0b",
+      "model_requested": "Helsinki-NLP/opus-mt-en-cel",
+      "n": 1631,
+      "off_target_confidence_threshold": 0.5,
+      "off_target_expected_lang": "cy",
+      "off_target_n": 1631,
+      "off_target_rate": 0.0956,
+      "partial_slice": false,
+      "pin_status": "verified",
+      "reasoning": null,
+      "receipt": "tatoeba.cy.en-xx.opus-mt-cel.hyp.receipt.json",
+      "repetition_rate": 0.0,
+      "runtime": {
+        "python": "3.14.3",
+        "sacrebleu": "2.6.0",
+        "torch": "2.13.0",
+        "transformers": "5.14.1"
+      },
+      "system": "opus-mt-cel",
+      "tier": "open-anchor",
+      "usage": {
+        "cache_hits": 0,
+        "completion_tokens": 0,
+        "prompt_tokens": 0,
+        "requests": 0,
+        "source_chars": 44949,
+        "total_tokens": 0
+      },
+      "vendor": "Helsinki-NLP"
+    },
+    {
+      "benchmark_only": false,
+      "blank_rate": 0.0,
+      "bleu": 23.66,
+      "chrf_pp": 50.08,
+      "copy_rate": 0.0,
+      "corpus": "flores",
+      "created_utc": "2026-07-29T19:47:26+00:00",
+      "decoding_deviations": [],
+      "direction": "en-xx",
+      "fails": 0,
+      "harness_version": "cc3c209-dirty",
+      "hypothesis_file": "flores.ga.en-xx.opus-mt-cel.hyp",
+      "label": "Opus-MT en-cel / cel-en (anchor)",
+      "lang": "ga",
+      "language_name": "Irish",
+      "length_ratio_band": [
+        0.5,
+        2.0
+      ],
+      "length_ratio_median": 1.086,
+      "length_ratio_n": 1012,
+      "length_ratio_outlier_rate": 0.0,
+      "length_ratio_p10": 0.952,
+      "length_ratio_p90": 1.24,
+      "license": "Apache-2.0",
+      "model_reported": "Helsinki-NLP/opus-mt-en-cel@e79438534e0b",
+      "model_requested": "Helsinki-NLP/opus-mt-en-cel",
+      "n": 1012,
+      "off_target_confidence_threshold": 0.5,
+      "off_target_expected_lang": "ga",
+      "off_target_n": 1012,
+      "off_target_rate": 0.0,
+      "partial_slice": false,
+      "pin_status": "verified",
+      "reasoning": null,
+      "receipt": "flores.ga.en-xx.opus-mt-cel.hyp.receipt.json",
+      "repetition_rate": 0.0,
+      "runtime": {
+        "python": "3.14.3",
+        "sacrebleu": "2.6.0",
+        "torch": "2.13.0",
+        "transformers": "5.14.1"
+      },
+      "system": "opus-mt-cel",
+      "tier": "open-anchor",
+      "usage": {
+        "cache_hits": 0,
+        "completion_tokens": 0,
+        "prompt_tokens": 0,
+        "requests": 0,
+        "source_chars": 131966,
+        "total_tokens": 0
+      },
+      "vendor": "Helsinki-NLP"
+    },
+    {
+      "benchmark_only": false,
+      "blank_rate": 0.0,
+      "bleu": 35.2,
+      "chrf_pp": 57.04,
+      "copy_rate": 0.0047,
+      "corpus": "tatoeba",
+      "created_utc": "2026-07-29T19:55:19+00:00",
+      "decoding_deviations": [],
+      "direction": "en-xx",
+      "fails": 0,
+      "harness_version": "cc3c209-dirty",
+      "hypothesis_file": "tatoeba.ga.en-xx.opus-mt-cel.hyp",
+      "label": "Opus-MT en-cel / cel-en (anchor)",
+      "lang": "ga",
+      "language_name": "Irish",
+      "length_ratio_band": [
+        0.5,
+        2.0
+      ],
+      "length_ratio_median": 1.147,
+      "length_ratio_n": 2339,
+      "length_ratio_outlier_rate": 0.0098,
+      "length_ratio_p10": 0.875,
+      "length_ratio_p90": 1.545,
+      "license": "Apache-2.0",
+      "model_reported": "Helsinki-NLP/opus-mt-en-cel@e79438534e0b",
+      "model_requested": "Helsinki-NLP/opus-mt-en-cel",
+      "n": 2339,
+      "off_target_confidence_threshold": 0.5,
+      "off_target_expected_lang": "ga",
+      "off_target_n": 2339,
+      "off_target_rate": 0.0911,
+      "partial_slice": false,
+      "pin_status": "verified",
+      "reasoning": null,
+      "receipt": "tatoeba.ga.en-xx.opus-mt-cel.hyp.receipt.json",
+      "repetition_rate": 0.0,
+      "runtime": {
+        "python": "3.14.3",
+        "sacrebleu": "2.6.0",
+        "torch": "2.13.0",
+        "transformers": "5.14.1"
+      },
+      "system": "opus-mt-cel",
+      "tier": "open-anchor",
+      "usage": {
+        "cache_hits": 0,
+        "completion_tokens": 0,
+        "prompt_tokens": 0,
+        "requests": 0,
+        "source_chars": 57379,
+        "total_tokens": 0
+      },
+      "vendor": "Helsinki-NLP"
+    },
+    {
+      "benchmark_only": false,
+      "blank_rate": 0.0,
+      "bleu": 5.71,
+      "chrf_pp": 29.11,
+      "copy_rate": 0.0,
+      "corpus": "flores",
+      "created_utc": "2026-07-29T19:53:02+00:00",
+      "decoding_deviations": [],
+      "direction": "en-xx",
+      "fails": 0,
+      "harness_version": "cc3c209-dirty",
+      "hypothesis_file": "flores.gd.en-xx.opus-mt-cel.hyp",
+      "label": "Opus-MT en-cel / cel-en (anchor)",
+      "lang": "gd",
+      "language_name": "Scottish Gaelic",
+      "length_ratio_band": [
+        0.5,
+        2.0
+      ],
+      "length_ratio_median": 1.047,
+      "length_ratio_n": 1012,
+      "length_ratio_outlier_rate": 0.0,
+      "length_ratio_p10": 0.844,
+      "length_ratio_p90": 1.268,
+      "license": "Apache-2.0",
+      "model_reported": "Helsinki-NLP/opus-mt-en-cel@e79438534e0b",
+      "model_requested": "Helsinki-NLP/opus-mt-en-cel",
+      "n": 1012,
+      "off_target_confidence_threshold": 0.5,
+      "off_target_expected_lang": "gd",
+      "off_target_n": 1012,
+      "off_target_rate": 0.0168,
+      "partial_slice": false,
+      "pin_status": "verified",
+      "reasoning": null,
+      "receipt": "flores.gd.en-xx.opus-mt-cel.hyp.receipt.json",
+      "repetition_rate": 0.0,
+      "runtime": {
+        "python": "3.14.3",
+        "sacrebleu": "2.6.0",
+        "torch": "2.13.0",
+        "transformers": "5.14.1"
+      },
+      "system": "opus-mt-cel",
+      "tier": "open-anchor",
+      "usage": {
+        "cache_hits": 0,
+        "completion_tokens": 0,
+        "prompt_tokens": 0,
+        "requests": 0,
+        "source_chars": 131966,
+        "total_tokens": 0
+      },
+      "vendor": "Helsinki-NLP"
+    },
+    {
+      "benchmark_only": false,
+      "blank_rate": 0.0,
+      "bleu": 7.93,
+      "chrf_pp": 29.99,
+      "copy_rate": 0.001,
+      "corpus": "tatoeba",
+      "created_utc": "2026-07-29T19:57:38+00:00",
+      "decoding_deviations": [],
+      "direction": "en-xx",
+      "fails": 0,
+      "harness_version": "cc3c209-dirty",
+      "hypothesis_file": "tatoeba.gd.en-xx.opus-mt-cel.hyp",
+      "label": "Opus-MT en-cel / cel-en (anchor)",
+      "lang": "gd",
+      "language_name": "Scottish Gaelic",
+      "length_ratio_band": [
+        0.5,
+        2.0
+      ],
+      "length_ratio_median": 1.25,
+      "length_ratio_n": 961,
+      "length_ratio_outlier_rate": 0.0562,
+      "length_ratio_p10": 0.875,
+      "length_ratio_p90": 1.857,
+      "license": "Apache-2.0",
+      "model_reported": "Helsinki-NLP/opus-mt-en-cel@e79438534e0b",
+      "model_requested": "Helsinki-NLP/opus-mt-en-cel",
+      "n": 961,
+      "off_target_confidence_threshold": 0.5,
+      "off_target_expected_lang": "gd",
+      "off_target_n": 961,
+      "off_target_rate": 0.0978,
+      "partial_slice": false,
+      "pin_status": "verified",
+      "reasoning": null,
+      "receipt": "tatoeba.gd.en-xx.opus-mt-cel.hyp.receipt.json",
+      "repetition_rate": 0.0,
+      "runtime": {
+        "python": "3.14.3",
+        "sacrebleu": "2.6.0",
+        "torch": "2.13.0",
+        "transformers": "5.14.1"
+      },
+      "system": "opus-mt-cel",
+      "tier": "open-anchor",
+      "usage": {
+        "cache_hits": 0,
+        "completion_tokens": 0,
+        "prompt_tokens": 0,
+        "requests": 0,
+        "source_chars": 26568,
+        "total_tokens": 0
+      },
+      "vendor": "Helsinki-NLP"
+    },
+    {
+      "benchmark_only": false,
+      "blank_rate": 0.0,
+      "bleu": 14.1,
+      "chrf_pp": 40.92,
+      "copy_rate": 0.0,
+      "corpus": "tatoeba",
+      "created_utc": "2026-07-29T19:58:18+00:00",
+      "decoding_deviations": [],
+      "direction": "en-xx",
+      "fails": 0,
+      "harness_version": "cc3c209-dirty",
+      "hypothesis_file": "tatoeba.gv.en-xx.opus-mt-cel.hyp",
+      "label": "Opus-MT en-cel / cel-en (anchor)",
+      "lang": "gv",
+      "language_name": "Manx",
+      "length_ratio_band": [
+        0.5,
+        2.0
+      ],
+      "length_ratio_median": 1.044,
+      "length_ratio_n": 18,
+      "length_ratio_outlier_rate": 0.0,
+      "length_ratio_p10": 0.895,
+      "length_ratio_p90": 1.5,
+      "license": "Apache-2.0",
+      "model_reported": "Helsinki-NLP/opus-mt-en-cel@e79438534e0b",
+      "model_requested": "Helsinki-NLP/opus-mt-en-cel",
+      "n": 18,
+      "off_target_confidence_threshold": 0.5,
+      "off_target_expected_lang": "gv",
+      "off_target_n": 18,
+      "off_target_rate": 0.3333,
+      "partial_slice": false,
+      "pin_status": "verified",
+      "reasoning": null,
+      "receipt": "tatoeba.gv.en-xx.opus-mt-cel.hyp.receipt.json",
+      "repetition_rate": 0.0,
+      "runtime": {
+        "python": "3.14.3",
+        "sacrebleu": "2.6.0",
+        "torch": "2.13.0",
+        "transformers": "5.14.1"
+      },
+      "system": "opus-mt-cel",
+      "tier": "open-anchor",
+      "usage": {
+        "cache_hits": 0,
+        "completion_tokens": 0,
+        "prompt_tokens": 0,
+        "requests": 0,
+        "source_chars": 363,
+        "total_tokens": 0
+      },
+      "vendor": "Helsinki-NLP"
+    },
+    {
+      "benchmark_only": false,
+      "blank_rate": 0.0,
+      "bleu": 0.34,
+      "chrf_pp": 9.93,
+      "copy_rate": 0.0012,
+      "corpus": "tatoeba",
+      "created_utc": "2026-07-29T20:02:31+00:00",
+      "decoding_deviations": [],
+      "direction": "en-xx",
+      "fails": 0,
+      "harness_version": "cc3c209-dirty",
+      "hypothesis_file": "tatoeba.kw.en-xx.opus-mt-cel.hyp",
       "label": "Opus-MT en-cel / cel-en (anchor)",
       "lang": "kw",
       "language_name": "Cornish",
+      "length_ratio_band": [
+        0.5,
+        2.0
+      ],
+      "length_ratio_median": 1.118,
+      "length_ratio_n": 3402,
+      "length_ratio_outlier_rate": 0.0976,
+      "length_ratio_p10": 0.667,
+      "length_ratio_p90": 1.857,
       "license": "Apache-2.0",
       "model_reported": "Helsinki-NLP/opus-mt-en-cel@e79438534e0b",
-      "n": 8,
+      "model_requested": "Helsinki-NLP/opus-mt-en-cel",
+      "n": 3402,
       "off_target_confidence_threshold": 0.5,
       "off_target_expected_lang": "kw",
-      "off_target_rate": 0.75,
-      "partial_slice": true,
+      "off_target_n": 3402,
+      "off_target_rate": 0.8142,
+      "partial_slice": false,
       "pin_status": "verified",
+      "reasoning": null,
       "receipt": "tatoeba.kw.en-xx.opus-mt-cel.hyp.receipt.json",
-      "repetition_rate": 0.0,
+      "repetition_rate": 0.0003,
+      "runtime": {
+        "python": "3.14.3",
+        "sacrebleu": "2.6.0",
+        "torch": "2.13.0",
+        "transformers": "5.14.1"
+      },
       "system": "opus-mt-cel",
       "tier": "open-anchor",
+      "usage": {
+        "cache_hits": 0,
+        "completion_tokens": 0,
+        "prompt_tokens": 0,
+        "requests": 0,
+        "source_chars": 67783,
+        "total_tokens": 0
+      },
+      "vendor": "Helsinki-NLP"
+    },
+    {
+      "benchmark_only": false,
+      "blank_rate": 0.0,
+      "bleu": 20.54,
+      "chrf_pp": 40.6,
+      "copy_rate": 0.0025,
+      "corpus": "tatoeba",
+      "created_utc": "2026-07-29T19:58:17+00:00",
+      "decoding_deviations": [],
+      "direction": "xx-en",
+      "fails": 0,
+      "harness_version": "cc3c209-dirty",
+      "hypothesis_file": "tatoeba.br.xx-en.opus-mt-cel.hyp",
+      "label": "Opus-MT en-cel / cel-en (anchor)",
+      "lang": "br",
+      "language_name": "Breton",
+      "length_ratio_band": [
+        0.5,
+        2.0
+      ],
+      "length_ratio_median": 0.951,
+      "length_ratio_n": 394,
+      "length_ratio_outlier_rate": 0.0178,
+      "length_ratio_p10": 0.679,
+      "length_ratio_p90": 1.389,
+      "license": "Apache-2.0",
+      "model_reported": "Helsinki-NLP/opus-mt-cel-en@f536f454b132",
+      "model_requested": "Helsinki-NLP/opus-mt-cel-en",
+      "n": 394,
+      "off_target_confidence_threshold": 0.5,
+      "off_target_expected_lang": "en",
+      "off_target_n": 394,
+      "off_target_rate": 0.0051,
+      "partial_slice": false,
+      "pin_status": "verified",
+      "reasoning": null,
+      "receipt": "tatoeba.br.xx-en.opus-mt-cel.hyp.receipt.json",
+      "repetition_rate": 0.0,
+      "runtime": {
+        "python": "3.14.3",
+        "sacrebleu": "2.6.0",
+        "torch": "2.13.0",
+        "transformers": "5.14.1"
+      },
+      "system": "opus-mt-cel",
+      "tier": "open-anchor",
+      "usage": {
+        "cache_hits": 0,
+        "completion_tokens": 0,
+        "prompt_tokens": 0,
+        "requests": 0,
+        "source_chars": 10412,
+        "total_tokens": 0
+      },
+      "vendor": "Helsinki-NLP"
+    },
+    {
+      "benchmark_only": false,
+      "blank_rate": 0.0,
+      "bleu": 30.82,
+      "chrf_pp": 54.5,
+      "copy_rate": 0.0,
+      "corpus": "flores",
+      "created_utc": "2026-07-29T19:51:24+00:00",
+      "decoding_deviations": [],
+      "direction": "xx-en",
+      "fails": 0,
+      "harness_version": "cc3c209-dirty",
+      "hypothesis_file": "flores.cy.xx-en.opus-mt-cel.hyp",
+      "label": "Opus-MT en-cel / cel-en (anchor)",
+      "lang": "cy",
+      "language_name": "Welsh",
+      "length_ratio_band": [
+        0.5,
+        2.0
+      ],
+      "length_ratio_median": 0.942,
+      "length_ratio_n": 1012,
+      "length_ratio_outlier_rate": 0.004,
+      "length_ratio_p10": 0.807,
+      "length_ratio_p90": 1.069,
+      "license": "Apache-2.0",
+      "model_reported": "Helsinki-NLP/opus-mt-cel-en@f536f454b132",
+      "model_requested": "Helsinki-NLP/opus-mt-cel-en",
+      "n": 1012,
+      "off_target_confidence_threshold": 0.5,
+      "off_target_expected_lang": "en",
+      "off_target_n": 1012,
+      "off_target_rate": 0.0,
+      "partial_slice": false,
+      "pin_status": "verified",
+      "reasoning": null,
+      "receipt": "flores.cy.xx-en.opus-mt-cel.hyp.receipt.json",
+      "repetition_rate": 0.0,
+      "runtime": {
+        "python": "3.14.3",
+        "sacrebleu": "2.6.0",
+        "torch": "2.13.0",
+        "transformers": "5.14.1"
+      },
+      "system": "opus-mt-cel",
+      "tier": "open-anchor",
+      "usage": {
+        "cache_hits": 0,
+        "completion_tokens": 0,
+        "prompt_tokens": 0,
+        "requests": 0,
+        "source_chars": 141273,
+        "total_tokens": 0
+      },
+      "vendor": "Helsinki-NLP"
+    },
+    {
+      "benchmark_only": false,
+      "blank_rate": 0.0,
+      "bleu": 42.1,
+      "chrf_pp": 59.57,
+      "copy_rate": 0.0067,
+      "corpus": "tatoeba",
+      "created_utc": "2026-07-29T19:57:13+00:00",
+      "decoding_deviations": [],
+      "direction": "xx-en",
+      "fails": 0,
+      "harness_version": "cc3c209-dirty",
+      "hypothesis_file": "tatoeba.cy.xx-en.opus-mt-cel.hyp",
+      "label": "Opus-MT en-cel / cel-en (anchor)",
+      "lang": "cy",
+      "language_name": "Welsh",
+      "length_ratio_band": [
+        0.5,
+        2.0
+      ],
+      "length_ratio_median": 0.909,
+      "length_ratio_n": 1631,
+      "length_ratio_outlier_rate": 0.0129,
+      "length_ratio_p10": 0.7,
+      "length_ratio_p90": 1.167,
+      "license": "Apache-2.0",
+      "model_reported": "Helsinki-NLP/opus-mt-cel-en@f536f454b132",
+      "model_requested": "Helsinki-NLP/opus-mt-cel-en",
+      "n": 1631,
+      "off_target_confidence_threshold": 0.5,
+      "off_target_expected_lang": "en",
+      "off_target_n": 1631,
+      "off_target_rate": 0.0116,
+      "partial_slice": false,
+      "pin_status": "verified",
+      "reasoning": null,
+      "receipt": "tatoeba.cy.xx-en.opus-mt-cel.hyp.receipt.json",
+      "repetition_rate": 0.0,
+      "runtime": {
+        "python": "3.14.3",
+        "sacrebleu": "2.6.0",
+        "torch": "2.13.0",
+        "transformers": "5.14.1"
+      },
+      "system": "opus-mt-cel",
+      "tier": "open-anchor",
+      "usage": {
+        "cache_hits": 0,
+        "completion_tokens": 0,
+        "prompt_tokens": 0,
+        "requests": 0,
+        "source_chars": 48806,
+        "total_tokens": 0
+      },
+      "vendor": "Helsinki-NLP"
+    },
+    {
+      "benchmark_only": false,
+      "blank_rate": 0.0,
+      "bleu": 28.61,
+      "chrf_pp": 55.2,
+      "copy_rate": 0.0,
+      "corpus": "flores",
+      "created_utc": "2026-07-29T19:48:40+00:00",
+      "decoding_deviations": [],
+      "direction": "xx-en",
+      "fails": 0,
+      "harness_version": "cc3c209-dirty",
+      "hypothesis_file": "flores.ga.xx-en.opus-mt-cel.hyp",
+      "label": "Opus-MT en-cel / cel-en (anchor)",
+      "lang": "ga",
+      "language_name": "Irish",
+      "length_ratio_band": [
+        0.5,
+        2.0
+      ],
+      "length_ratio_median": 0.895,
+      "length_ratio_n": 1012,
+      "length_ratio_outlier_rate": 0.001,
+      "length_ratio_p10": 0.765,
+      "length_ratio_p90": 1.03,
+      "license": "Apache-2.0",
+      "model_reported": "Helsinki-NLP/opus-mt-cel-en@f536f454b132",
+      "model_requested": "Helsinki-NLP/opus-mt-cel-en",
+      "n": 1012,
+      "off_target_confidence_threshold": 0.5,
+      "off_target_expected_lang": "en",
+      "off_target_n": 1012,
+      "off_target_rate": 0.0,
+      "partial_slice": false,
+      "pin_status": "verified",
+      "reasoning": null,
+      "receipt": "flores.ga.xx-en.opus-mt-cel.hyp.receipt.json",
+      "repetition_rate": 0.0,
+      "runtime": {
+        "python": "3.14.3",
+        "sacrebleu": "2.6.0",
+        "torch": "2.13.0",
+        "transformers": "5.14.1"
+      },
+      "system": "opus-mt-cel",
+      "tier": "open-anchor",
+      "usage": {
+        "cache_hits": 0,
+        "completion_tokens": 0,
+        "prompt_tokens": 0,
+        "requests": 0,
+        "source_chars": 152482,
+        "total_tokens": 0
+      },
+      "vendor": "Helsinki-NLP"
+    },
+    {
+      "benchmark_only": false,
+      "blank_rate": 0.0,
+      "bleu": 49.62,
+      "chrf_pp": 66.31,
+      "copy_rate": 0.0,
+      "corpus": "tatoeba",
+      "created_utc": "2026-07-29T19:55:58+00:00",
+      "decoding_deviations": [],
+      "direction": "xx-en",
+      "fails": 0,
+      "harness_version": "cc3c209-dirty",
+      "hypothesis_file": "tatoeba.ga.xx-en.opus-mt-cel.hyp",
+      "label": "Opus-MT en-cel / cel-en (anchor)",
+      "lang": "ga",
+      "language_name": "Irish",
+      "length_ratio_band": [
+        0.5,
+        2.0
+      ],
+      "length_ratio_median": 0.9,
+      "length_ratio_n": 2339,
+      "length_ratio_outlier_rate": 0.0115,
+      "length_ratio_p10": 0.667,
+      "length_ratio_p90": 1.188,
+      "license": "Apache-2.0",
+      "model_reported": "Helsinki-NLP/opus-mt-cel-en@f536f454b132",
+      "model_requested": "Helsinki-NLP/opus-mt-cel-en",
+      "n": 2339,
+      "off_target_confidence_threshold": 0.5,
+      "off_target_expected_lang": "en",
+      "off_target_n": 2339,
+      "off_target_rate": 0.0081,
+      "partial_slice": false,
+      "pin_status": "verified",
+      "reasoning": null,
+      "receipt": "tatoeba.ga.xx-en.opus-mt-cel.hyp.receipt.json",
+      "repetition_rate": 0.0,
+      "runtime": {
+        "python": "3.14.3",
+        "sacrebleu": "2.6.0",
+        "torch": "2.13.0",
+        "transformers": "5.14.1"
+      },
+      "system": "opus-mt-cel",
+      "tier": "open-anchor",
+      "usage": {
+        "cache_hits": 0,
+        "completion_tokens": 0,
+        "prompt_tokens": 0,
+        "requests": 0,
+        "source_chars": 65497,
+        "total_tokens": 0
+      },
+      "vendor": "Helsinki-NLP"
+    },
+    {
+      "benchmark_only": false,
+      "blank_rate": 0.0,
+      "bleu": 7.91,
+      "chrf_pp": 30.8,
+      "copy_rate": 0.0,
+      "corpus": "flores",
+      "created_utc": "2026-07-29T19:54:33+00:00",
+      "decoding_deviations": [],
+      "direction": "xx-en",
+      "fails": 0,
+      "harness_version": "cc3c209-dirty",
+      "hypothesis_file": "flores.gd.xx-en.opus-mt-cel.hyp",
+      "label": "Opus-MT en-cel / cel-en (anchor)",
+      "lang": "gd",
+      "language_name": "Scottish Gaelic",
+      "length_ratio_band": [
+        0.5,
+        2.0
+      ],
+      "length_ratio_median": 0.818,
+      "length_ratio_n": 1012,
+      "length_ratio_outlier_rate": 0.0069,
+      "length_ratio_p10": 0.655,
+      "length_ratio_p90": 0.995,
+      "license": "Apache-2.0",
+      "model_reported": "Helsinki-NLP/opus-mt-cel-en@f536f454b132",
+      "model_requested": "Helsinki-NLP/opus-mt-cel-en",
+      "n": 1012,
+      "off_target_confidence_threshold": 0.5,
+      "off_target_expected_lang": "en",
+      "off_target_n": 1012,
+      "off_target_rate": 0.0,
+      "partial_slice": false,
+      "pin_status": "verified",
+      "reasoning": null,
+      "receipt": "flores.gd.xx-en.opus-mt-cel.hyp.receipt.json",
+      "repetition_rate": 0.001,
+      "runtime": {
+        "python": "3.14.3",
+        "sacrebleu": "2.6.0",
+        "torch": "2.13.0",
+        "transformers": "5.14.1"
+      },
+      "system": "opus-mt-cel",
+      "tier": "open-anchor",
+      "usage": {
+        "cache_hits": 0,
+        "completion_tokens": 0,
+        "prompt_tokens": 0,
+        "requests": 0,
+        "source_chars": 162636,
+        "total_tokens": 0
+      },
+      "vendor": "Helsinki-NLP"
+    },
+    {
+      "benchmark_only": false,
+      "blank_rate": 0.0,
+      "bleu": 15.82,
+      "chrf_pp": 33.05,
+      "copy_rate": 0.0031,
+      "corpus": "tatoeba",
+      "created_utc": "2026-07-29T19:57:58+00:00",
+      "decoding_deviations": [],
+      "direction": "xx-en",
+      "fails": 0,
+      "harness_version": "cc3c209-dirty",
+      "hypothesis_file": "tatoeba.gd.xx-en.opus-mt-cel.hyp",
+      "label": "Opus-MT en-cel / cel-en (anchor)",
+      "lang": "gd",
+      "language_name": "Scottish Gaelic",
+      "length_ratio_band": [
+        0.5,
+        2.0
+      ],
+      "length_ratio_median": 0.867,
+      "length_ratio_n": 961,
+      "length_ratio_outlier_rate": 0.0385,
+      "length_ratio_p10": 0.6,
+      "length_ratio_p90": 1.233,
+      "license": "Apache-2.0",
+      "model_reported": "Helsinki-NLP/opus-mt-cel-en@f536f454b132",
+      "model_requested": "Helsinki-NLP/opus-mt-cel-en",
+      "n": 961,
+      "off_target_confidence_threshold": 0.5,
+      "off_target_expected_lang": "en",
+      "off_target_n": 961,
+      "off_target_rate": 0.0094,
+      "partial_slice": false,
+      "pin_status": "verified",
+      "reasoning": null,
+      "receipt": "tatoeba.gd.xx-en.opus-mt-cel.hyp.receipt.json",
+      "repetition_rate": 0.0,
+      "runtime": {
+        "python": "3.14.3",
+        "sacrebleu": "2.6.0",
+        "torch": "2.13.0",
+        "transformers": "5.14.1"
+      },
+      "system": "opus-mt-cel",
+      "tier": "open-anchor",
+      "usage": {
+        "cache_hits": 0,
+        "completion_tokens": 0,
+        "prompt_tokens": 0,
+        "requests": 0,
+        "source_chars": 31660,
+        "total_tokens": 0
+      },
+      "vendor": "Helsinki-NLP"
+    },
+    {
+      "benchmark_only": false,
+      "blank_rate": 0.0,
+      "bleu": 23.28,
+      "chrf_pp": 37.52,
+      "copy_rate": 0.0,
+      "corpus": "tatoeba",
+      "created_utc": "2026-07-29T19:58:19+00:00",
+      "decoding_deviations": [],
+      "direction": "xx-en",
+      "fails": 0,
+      "harness_version": "cc3c209-dirty",
+      "hypothesis_file": "tatoeba.gv.xx-en.opus-mt-cel.hyp",
+      "label": "Opus-MT en-cel / cel-en (anchor)",
+      "lang": "gv",
+      "language_name": "Manx",
+      "length_ratio_band": [
+        0.5,
+        2.0
+      ],
+      "length_ratio_median": 0.896,
+      "length_ratio_n": 18,
+      "length_ratio_outlier_rate": 0.0556,
+      "length_ratio_p10": 0.615,
+      "length_ratio_p90": 1.12,
+      "license": "Apache-2.0",
+      "model_reported": "Helsinki-NLP/opus-mt-cel-en@f536f454b132",
+      "model_requested": "Helsinki-NLP/opus-mt-cel-en",
+      "n": 18,
+      "off_target_confidence_threshold": 0.5,
+      "off_target_expected_lang": "en",
+      "off_target_n": 18,
+      "off_target_rate": 0.0,
+      "partial_slice": false,
+      "pin_status": "verified",
+      "reasoning": null,
+      "receipt": "tatoeba.gv.xx-en.opus-mt-cel.hyp.receipt.json",
+      "repetition_rate": 0.0,
+      "runtime": {
+        "python": "3.14.3",
+        "sacrebleu": "2.6.0",
+        "torch": "2.13.0",
+        "transformers": "5.14.1"
+      },
+      "system": "opus-mt-cel",
+      "tier": "open-anchor",
+      "usage": {
+        "cache_hits": 0,
+        "completion_tokens": 0,
+        "prompt_tokens": 0,
+        "requests": 0,
+        "source_chars": 339,
+        "total_tokens": 0
+      },
       "vendor": "Helsinki-NLP"
     }
   ],
-  "schema": "celticbench.scores.v1"
+  "runtime": {
+    "python": "3.14.3",
+    "sacrebleu": "2.6.0",
+    "torch": "2.13.0",
+    "transformers": "5.14.1"
+  },
+  "schema": "celticbench.scores.v2"
 }

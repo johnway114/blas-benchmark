@@ -1,0 +1,61 @@
+{
+  "benchmark_only": false,
+  "corpus": "flores",
+  "corpus_manifest_sha256": "97f28dd302193df92e905ec931d522d755dcf3264e758969b6045d3c0c8a66cb",
+  "created_utc": "2026-07-29T19:53:02+00:00",
+  "decoding": {
+    "do_sample": false,
+    "max_new_tokens": 256,
+    "num_beams": 4
+  },
+  "decoding_declared": {
+    "do_sample": false,
+    "max_new_tokens": 256,
+    "num_beams": 4
+  },
+  "decoding_declared_sha256": "155f234165a16aa99b8a2060922c0c12a145e2ca3453a6a38ed6face23c280d9",
+  "decoding_deviations": [],
+  "decoding_sha256": "155f234165a16aa99b8a2060922c0c12a145e2ca3453a6a38ed6face23c280d9",
+  "direction": "en-xx",
+  "eval_input_sha256": "612e9fbe87997617c0fa8fa8929654a4f49b728d96738112c2b86ef6a1d78d88",
+  "eval_reference_sha256": "6c040850bffd398c3a00363508d061e563554385b70e6de261778f1119b148f9",
+  "fails": 0,
+  "harness_version": "cc3c209-dirty",
+  "hypothesis_file": "flores.gd.en-xx.opus-mt-cel.hyp",
+  "hypothesis_sha256": "aaa8c537084c4b316e0c5ab1e53b292041804f5324bc3a638d7bb5387a166caf",
+  "lang": "gd",
+  "license": "Apache-2.0",
+  "limit": null,
+  "method_version": "v2",
+  "model_reported": "Helsinki-NLP/opus-mt-en-cel@e79438534e0b",
+  "model_reported_variants": [
+    "Helsinki-NLP/opus-mt-en-cel@e79438534e0b"
+  ],
+  "model_requested": "Helsinki-NLP/opus-mt-en-cel",
+  "n": 1012,
+  "partial_slice": false,
+  "pin_status": "verified",
+  "prompt_sha256": null,
+  "prompt_template": null,
+  "provider": "hf_local",
+  "reasoning": null,
+  "revision": "e79438534e0be0f4efa2585e3b24393bf40def95",
+  "runtime": {
+    "python": "3.14.3",
+    "sacrebleu": "2.6.0",
+    "torch": "2.13.0",
+    "transformers": "5.14.1"
+  },
+  "schema": "celticbench.receipt.v2",
+  "system": "opus-mt-cel",
+  "tier": "open-anchor",
+  "usage": {
+    "cache_hits": 0,
+    "completion_tokens": 0,
+    "prompt_tokens": 0,
+    "requests": 0,
+    "source_chars": 131966,
+    "total_tokens": 0
+  },
+  "vendor": "Helsinki-NLP"
+}

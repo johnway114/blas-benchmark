@@ -3,6 +3,11 @@
 Uses real sacrebleu, real receipt verification, real files in tmp dirs.
 The 'system under test' is a handcrafted hypothesis file with a receipt in
 exactly the shape runner.py writes, which is precisely what score_all trusts.
+
+Most of these tests are about refusal. A leaderboard row is a claim that
+specific bytes were produced by a specific model against a specific corpus
+under a specific prompt; every test below breaks exactly one link in that
+chain and asserts the row disappears with a reason.
 """
 import json
 import os
@@ -13,9 +18,11 @@ import sacrebleu
 import celticbench.lib as lib
 import celticbench.scoring as scoring
 from celticbench.lib import (
-    SCHEMA_RECEIPT, file_sha256, hyp_path, receipt_path, sha256_json, write_lines,
-    write_manifest,
+    METHOD_VERSION, SCHEMA_RECEIPT, direction_io, file_sha256, hyp_path,
+    receipt_path, sha256_json, write_lines, write_manifest,
 )
+from celticbench.prompt import CHAT_DECODING, PROMPT_SHA256, PROMPT_TEMPLATE
+from celticbench.registry import SYSTEMS
 
 SRC = ["Good morning.", "The sea is cold today.", "I saw three birds."]
 REF = ["Myttin da.", "Yeyn yw an mor hedhyw.", "My a welas teyr edhen."]
@@ -35,38 +42,67 @@ def workspace(tmp_path, monkeypatch):
     return tmp_path, manifest
 
 
-def _write_run(manifest, system_id="opus-mt-cel", hyps=HYP, direction="en-xx"):
-    out = hyp_path("tatoeba", "kw", direction, system_id)
+def _write_run(manifest, system_id="opus-mt-cel", hyps=HYP, direction="en-xx",
+               lang="kw", limit=None, **overrides):
+    """Write a hypothesis plus the receipt runner.py would have written."""
+    entry = SYSTEMS[system_id]
+    prompted = entry["provider"] != "hf_local" or entry.get("family") == "causal"
+    out = hyp_path("tatoeba", lang, direction, system_id, limit)
     write_lines(out, hyps)
+    input_path, reference_path = direction_io("tatoeba", lang, direction)
     receipt = {
         "schema": SCHEMA_RECEIPT,
+        "method_version": METHOD_VERSION,
         "system": system_id,
-        "provider": "hf_local",
-        "vendor": "Helsinki-NLP",
-        "model_requested": "Helsinki-NLP/opus-mt-en-cel",
-        "model_reported": "Helsinki-NLP/opus-mt-en-cel@e794385",
-        "revision": "e79438534e0be0f4efa2585e3b24393bf40def95",
-        "pin_status": "verified",
-        "license": "Apache-2.0",
+        "provider": entry["provider"],
+        "vendor": entry["vendor"],
+        "tier": entry["tier"],
+        "model_requested": "test-model",
+        "model_reported": "test-model@1",
+        "model_reported_variants": ["test-model@1"],
+        "revision": None,
+        "pin_status": entry["pin_status"],
+        "license": entry["license"],
         "benchmark_only": False,
+        "reasoning": None,
         "corpus": "tatoeba",
-        "lang": "kw",
+        "lang": lang,
         "direction": direction,
         "n": len(hyps),
-        "limit": None,
+        "limit": limit,
+        "partial_slice": limit is not None,
         "fails": 0,
-        "prompt_template": None,
-        "prompt_sha256": None,
-        "decoding": {"num_beams": 4},
-        "decoding_sha256": sha256_json({"num_beams": 4}),
+        "prompt_template": PROMPT_TEMPLATE if prompted else None,
+        "prompt_sha256": PROMPT_SHA256 if prompted else None,
+        "decoding_declared": dict(entry["decoding"]),
+        "decoding_declared_sha256": sha256_json(entry["decoding"]),
+        "decoding": dict(entry["decoding"]),
+        "decoding_sha256": sha256_json(entry["decoding"]),
+        "decoding_deviations": [],
         "corpus_manifest_sha256": manifest["contract_sha256"],
+        "eval_input_sha256": file_sha256(input_path),
+        "eval_reference_sha256": file_sha256(reference_path),
+        "hypothesis_file": os.path.basename(out),
         "hypothesis_sha256": file_sha256(out),
+        "usage": {"requests": len(hyps), "cache_hits": 0, "total_tokens": 0},
         "created_utc": "2026-07-29T00:00:00+00:00",
         "harness_version": "test",
+        "runtime": {"python": "3.14.0"},
     }
-    with open(receipt_path(out), "w", encoding="utf-8") as handle:
-        json.dump(receipt, handle)
+    receipt.update(overrides)
+    _save(out, receipt)
     return out, receipt
+
+
+def _save(hyp_file, receipt):
+    with open(receipt_path(hyp_file), "w", encoding="utf-8") as handle:
+        json.dump(receipt, handle)
+
+
+def _only_exclusion(payload):
+    assert payload["results"] == [], payload["results"]
+    assert len(payload["excluded"]) == 1, payload["excluded"]
+    return payload["excluded"][0]["reason"]
 
 
 def _lid_available():
@@ -94,44 +130,136 @@ def test_score_all_end_to_end(workspace):
     assert os.path.exists(os.path.join(scoring.SCORES, "scores.json"))
 
 
+def test_scores_record_metric_and_detector_provenance(workspace):
+    _, manifest = workspace
+    _write_run(manifest)
+    payload = scoring.score_all()
+    # A chrF++ number without its sacrebleu signature is not reproducible.
+    assert "chrF" in payload["metric_signatures"]["chrf_pp"]
+    assert "BLEU" in payload["metric_signatures"]["bleu"]
+    assert payload["runtime"]["python"]
+    assert payload["coverage"], "coverage must say which cells are even offered"
+
+
 def test_tampered_hypothesis_is_excluded(workspace):
     _, manifest = workspace
     out, _ = _write_run(manifest)
     with open(out, "a", encoding="utf-8") as handle:
         handle.write("injected line\n")
-    payload = scoring.score_all()
-    assert payload["results"] == []
-    assert len(payload["excluded"]) == 1
-    assert "do not match receipt hash" in payload["excluded"][0]["reason"]
+    assert "do not match receipt hash" in _only_exclusion(scoring.score_all())
 
 
 def test_missing_receipt_is_excluded(workspace):
     write_lines(hyp_path("tatoeba", "kw", "en-xx", "opus-mt-cel"), HYP)
-    payload = scoring.score_all()
-    assert payload["results"] == []
-    assert payload["excluded"][0]["reason"] == "no receipt"
+    assert _only_exclusion(scoring.score_all()) == "no receipt"
+
+
+def test_old_schema_receipt_is_excluded(workspace):
+    _, manifest = workspace
+    _write_run(manifest, schema="celticbench.receipt.v1")
+    assert "is not celticbench.receipt.v2" in _only_exclusion(scoring.score_all())
 
 
 def test_manifest_drift_since_run_is_excluded(workspace):
-    tmp_path, manifest = workspace
+    _, manifest = workspace
     _write_run(manifest)
-    write_lines(lib.eval_ref_path("tatoeba", "kw"), ["Myttin da.", "CHANGED.", "My a welas teyr edhen."])
+    write_lines(lib.eval_ref_path("tatoeba", "kw"),
+                ["Myttin da.", "CHANGED.", "My a welas teyr edhen."])
     write_manifest("tatoeba", "kw", 3, {"dataset": "test-fixture"}, force=True)
-    payload = scoring.score_all()
-    assert payload["results"] == []
-    assert "manifest changed since this run" in payload["excluded"][0]["reason"]
+    assert "manifest changed since this run" in _only_exclusion(scoring.score_all())
+
+
+def test_edited_eval_file_without_manifest_rewrite_is_excluded(workspace):
+    _, manifest = workspace
+    _write_run(manifest)
+    # The manifest still claims the old hash, so the corpus contract itself is
+    # violated: scoring must refuse rather than score against edited gold.
+    write_lines(lib.eval_ref_path("tatoeba", "kw"),
+                ["Myttin da.", "EDITED IN PLACE.", "My a welas teyr edhen."])
+    assert "no longer match the manifest" in _only_exclusion(scoring.score_all())
 
 
 def test_unregistered_system_receipt_is_excluded(workspace):
     _, manifest = workspace
     out, receipt = _write_run(manifest)
     receipt["system"] = "mystery-model"
-    with open(receipt_path(out), "w", encoding="utf-8") as handle:
-        json.dump(receipt, handle)
     renamed = out.replace("opus-mt-cel", "mystery-model")
     os.rename(out, renamed)
-    os.rename(receipt_path(out), receipt_path(renamed))
-    # hash still matches the moved file, so the registry check is what fires
+    os.remove(receipt_path(out))
+    _save(renamed, receipt)
+    assert "not registered" in _only_exclusion(scoring.score_all())
+
+
+def test_filename_that_disagrees_with_receipt_is_excluded(workspace):
+    _, manifest = workspace
+    out, receipt = _write_run(manifest)
+    renamed = out.replace("en-xx", "xx-en")
+    os.rename(out, renamed)
+    os.remove(receipt_path(out))
+    _save(renamed, receipt)
+    reason = _only_exclusion(scoring.score_all())
+    assert "filename says direction='xx-en'" in reason
+
+
+def test_partial_slice_does_not_collide_with_the_full_run(workspace):
+    _, manifest = workspace
+    full, _ = _write_run(manifest)
+    partial, _ = _write_run(manifest, hyps=HYP[:2], limit=2)
+    assert full != partial and os.path.exists(full) and os.path.exists(partial)
     payload = scoring.score_all()
-    assert payload["results"] == []
-    assert "not registered" in payload["excluded"][0]["reason"]
+    assert payload["excluded"] == []
+    slices = sorted(row["partial_slice"] for row in payload["results"])
+    assert slices == [False, True]
+
+
+def test_slice_marker_must_match_the_receipt(workspace):
+    _, manifest = workspace
+    # A full-run receipt renamed to look like a smoke slice, or vice versa.
+    out, receipt = _write_run(manifest, hyps=HYP[:2], limit=2)
+    renamed = out.replace(".limit2", "")
+    os.rename(out, renamed)
+    os.remove(receipt_path(out))
+    _save(renamed, receipt)
+    assert "slice does not match" in _only_exclusion(scoring.score_all())
+
+
+def test_prompt_change_since_run_is_excluded(workspace):
+    _, manifest = workspace
+    _write_run(manifest, system_id="gpt-5.6-sol", prompt_sha256="0" * 64)
+    assert "prompt changed since this run" in _only_exclusion(scoring.score_all())
+
+
+def test_decoding_contract_change_since_run_is_excluded(workspace):
+    _, manifest = workspace
+    stale = dict(CHAT_DECODING, temperature=0.7)
+    _write_run(manifest, system_id="gpt-5.6-sol",
+               decoding_declared=stale, decoding_declared_sha256=sha256_json(stale))
+    assert "declared decoding changed" in _only_exclusion(scoring.score_all())
+
+
+def test_receipt_that_contradicts_itself_is_excluded(workspace):
+    _, manifest = workspace
+    _write_run(manifest, decoding_sha256="0" * 64)
+    assert "does not match its own decoding block" in _only_exclusion(scoring.score_all())
+
+
+def test_receipt_line_count_must_match_the_file(workspace):
+    _, manifest = workspace
+    _write_run(manifest, n=99)
+    assert "receipt claims n=99" in _only_exclusion(scoring.score_all())
+
+
+def test_combination_the_registry_no_longer_offers_is_excluded(workspace):
+    _, manifest = workspace
+    # Google's NMT language list has no Cornish, so an old Cornish run of it
+    # can never be published again, however well-formed its receipt is.
+    _write_run(manifest, system_id="google-translate-v2")
+    assert "registry no longer supports" in _only_exclusion(scoring.score_all())
+
+
+def test_run_from_another_method_version_is_excluded(workspace):
+    """A v1 run is not a v2 row, however intact its bytes are."""
+    _, manifest = workspace
+    _write_run(manifest, method_version="v1")
+    reason = _only_exclusion(scoring.score_all())
+    assert "made under method 'v1'" in reason

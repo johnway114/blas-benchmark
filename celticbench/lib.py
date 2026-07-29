@@ -8,6 +8,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import subprocess
 from typing import Any
 
@@ -19,27 +20,73 @@ CACHE_DIR = os.path.join(OUT, "cache")
 MANIFESTS = os.path.join(HERE, "manifests")
 SCORES = os.path.join(HERE, "scores")
 
-SCHEMA_MANIFEST = "celticbench.manifest.v1"
-SCHEMA_RECEIPT = "celticbench.receipt.v1"
-SCHEMA_SCORES = "celticbench.scores.v1"
+SCHEMA_MANIFEST = "celticbench.manifest.v2"
+SCHEMA_RECEIPT = "celticbench.receipt.v2"
+SCHEMA_SCORES = "celticbench.scores.v2"
+SCHEMA_QA = "celticbench.corpus-qa.v1"
+SCHEMA_SLICE = "celticbench.trackb-slice.v1"
+
+# The published method version. Everything that decides whether two rows are
+# comparable -- corpora, prompt, decoding, metric definitions -- is frozen
+# inside one version, so a receipt from another version is refused rather than
+# quietly ranked against this one. Bumping it means re-running every system;
+# CHANGELOG.md says what each bump invalidated.
+METHOD_VERSION = "v2"
 
 # Canonical language table. Keys are ISO 639-1 (all six Celtic languages have
 # one). Per-language values map to the code each corpus or system expects;
-# None means that corpus/system does not cover the language.
+# None means that corpus or system does not cover the language, and the
+# registry turns that None into a hard refusal instead of a failed request.
+#
+# The provider columns are transcribed from each vendor's current published
+# language list (cited in METHODOLOGY.md). They are claims about *availability*
+# only: whether a call is even accepted. Quality is what the benchmark measures.
 LANGS: dict[str, dict[str, Any]] = {
-    "ga": {"name": "Irish",           "flores": "gle_Latn", "tatoeba": "gle", "google": "ga", "nllb": "gle_Latn", "opus_cel": "gle", "madlad": "ga", "lid": "ga"},
-    "cy": {"name": "Welsh",           "flores": "cym_Latn", "tatoeba": "cym", "google": "cy", "nllb": "cym_Latn", "opus_cel": "cym", "madlad": "cy", "lid": "cy"},
-    "gd": {"name": "Scottish Gaelic", "flores": "gla_Latn", "tatoeba": "gla", "google": "gd", "nllb": "gla_Latn", "opus_cel": "gla", "madlad": "gd", "lid": "gd"},
-    "br": {"name": "Breton",          "flores": None,       "tatoeba": "bre", "google": "br", "nllb": "bre_Latn", "opus_cel": "bre", "madlad": "br", "lid": "br"},
-    "gv": {"name": "Manx",            "flores": None,       "tatoeba": "glv", "google": "gv", "nllb": None,       "opus_cel": "glv", "madlad": "gv", "lid": "gv"},
-    "kw": {"name": "Cornish",         "flores": None,       "tatoeba": "cor", "google": None, "nllb": None,       "opus_cel": "cor", "madlad": "kw", "lid": "kw"},
+    "ga": {"name": "Irish", "flores": "gle_Latn", "tatoeba": "gle", "lid": "ga",
+           "nllb": "gle_Latn", "opus_cel": "gle", "madlad": "ga",
+           "google": "ga", "google_tllm": "ga", "deepl": "GA",
+           "azure": "ga", "aws": "ga", "alibaba": "ga"},
+    "cy": {"name": "Welsh", "flores": "cym_Latn", "tatoeba": "cym", "lid": "cy",
+           "nllb": "cym_Latn", "opus_cel": "cym", "madlad": "cy",
+           "google": "cy", "google_tllm": "cy", "deepl": "CY",
+           "azure": "cy", "aws": "cy", "alibaba": "cy"},
+    "gd": {"name": "Scottish Gaelic", "flores": "gla_Latn", "tatoeba": "gla", "lid": "gd",
+           "nllb": "gla_Latn", "opus_cel": "gla", "madlad": "gd",
+           "google": "gd", "google_tllm": "gd", "deepl": None,
+           "azure": None, "aws": None, "alibaba": None},
+    "br": {"name": "Breton", "flores": None, "tatoeba": "bre", "lid": "br",
+           "nllb": "bre_Latn", "opus_cel": "bre", "madlad": "br",
+           "google": "br", "google_tllm": None, "deepl": "BR",
+           "azure": None, "aws": None, "alibaba": "br"},
+    "gv": {"name": "Manx", "flores": None, "tatoeba": "glv", "lid": "gv",
+           "nllb": None, "opus_cel": "glv", "madlad": "gv",
+           "google": None, "google_tllm": None, "deepl": None,
+           "azure": None, "aws": None, "alibaba": "gv"},
+    "kw": {"name": "Cornish", "flores": None, "tatoeba": "cor", "lid": "kw",
+           "nllb": None, "opus_cel": "cor", "madlad": "kw",
+           "google": None, "google_tllm": None, "deepl": None,
+           "azure": None, "aws": None, "alibaba": "kw"},
 }
 ALL_LANGS = tuple(LANGS)
 DIRECTIONS = ("en-xx", "xx-en")
-# Track A corpora. Track C (reference-free integrity metrics) is computed on
-# every hypothesis regardless of corpus. Track B (rolling fresh harvest)
-# activates with its first sealed slice; see METHODOLOGY.md.
+
+# Track A corpora: static public corpora, identical for every edition.
+# Track B is a rolling fresh harvest; each sealed slice is its own corpus
+# named trackb-<slice> and is discovered from its committed manifest, so a
+# new slice needs no code change. Track C (reference-free integrity metrics)
+# is computed on every hypothesis regardless of corpus.
 CORPORA = ("flores", "tatoeba")
+TRACK_B_PREFIX = "trackb-"
+
+
+def all_corpora() -> tuple[str, ...]:
+    """Track A corpora plus every Track B slice that has a committed manifest."""
+    slices: set[str] = set()
+    if os.path.isdir(MANIFESTS):
+        for name in os.listdir(MANIFESTS):
+            if name.startswith(TRACK_B_PREFIX) and name.endswith(".json"):
+                slices.add(name.split(".", 1)[0])
+    return CORPORA + tuple(sorted(slices))
 
 
 def canonical_json(value: Any) -> str:
@@ -86,6 +133,24 @@ def harness_version() -> str:
         return "unknown"
 
 
+def runtime_versions() -> dict[str, str]:
+    """Versions of every library that can move a published number.
+
+    Recorded in each receipt: sacrebleu decides chrF++/BLEU, torch and
+    transformers decide local-anchor output, and the Python version decides
+    both. A rerun that disagrees is a different measurement, not a mystery.
+    """
+    import platform
+
+    versions = {"python": platform.python_version()}
+    for name in ("sacrebleu", "torch", "transformers"):
+        try:
+            versions[name] = __import__(name).__version__
+        except Exception:
+            continue
+    return versions
+
+
 def load_env(path: str | None = None) -> None:
     """Tiny .env loader; never overrides variables already in the environment."""
     env_path = path or os.path.join(HERE, ".env")
@@ -106,6 +171,7 @@ def load_env(path: str | None = None) -> None:
 #
 # eval/{corpus}.{lang}.src   English side
 # eval/{corpus}.{lang}.ref   Celtic side
+# eval/{corpus}.{lang}.ids   upstream row ids, one per line (attribution)
 #
 # Direction decides which file is the model input:
 #   en-xx: input = .src, references = .ref
@@ -118,6 +184,16 @@ def eval_src_path(corpus: str, lang: str) -> str:
 
 def eval_ref_path(corpus: str, lang: str) -> str:
     return os.path.join(EVAL, f"{corpus}.{lang}.ref")
+
+
+def eval_ids_path(corpus: str, lang: str) -> str:
+    """Upstream row identifiers, parallel to .src/.ref.
+
+    Tatoeba sentences are CC-BY: the ids are what makes a published line
+    traceable back to its author. Track B slices use them for the source URL
+    of each segment. FLORES has no per-row id, so it has no ids file.
+    """
+    return os.path.join(EVAL, f"{corpus}.{lang}.ids")
 
 
 def direction_io(corpus: str, lang: str, direction: str) -> tuple[str, str]:
@@ -140,8 +216,32 @@ def expected_target_lang(lang: str, direction: str) -> str:
     return lang if direction == "en-xx" else "en"
 
 
-def hyp_path(corpus: str, lang: str, direction: str, system_id: str) -> str:
-    return os.path.join(OUT, f"{corpus}.{lang}.{direction}.{system_id}.hyp")
+def hyp_path(corpus: str, lang: str, direction: str, system_id: str,
+             limit: int | None = None) -> str:
+    """Output path for one run.
+
+    A partial slice gets its own filename. A `--limit 8` smoke run must never
+    overwrite (or be mistaken for) the published full run of the same
+    combination, and both must be able to exist at once.
+    """
+    suffix = f".limit{limit}" if limit else ""
+    return os.path.join(OUT, f"{corpus}.{lang}.{direction}.{system_id}{suffix}.hyp")
+
+
+_HYP_NAME_RE = re.compile(
+    r"^(?P<corpus>[a-z0-9-]+)\.(?P<lang>[a-z]{2})\.(?P<direction>en-xx|xx-en)"
+    r"\.(?P<system>.+?)(?:\.limit(?P<limit>\d+))?\.hyp$"
+)
+
+
+def parse_hyp_name(name: str) -> dict[str, Any] | None:
+    """Filename -> {corpus, lang, direction, system, limit} or None."""
+    match = _HYP_NAME_RE.match(name)
+    if not match:
+        return None
+    parsed = match.groupdict()
+    parsed["limit"] = int(parsed["limit"]) if parsed["limit"] else None
+    return parsed
 
 
 def receipt_path(hypothesis_path: str) -> str:
@@ -186,7 +286,10 @@ def verify_manifest(corpus: str, lang: str) -> dict[str, Any]:
     if manifest_contract_hash(manifest) != manifest.get("contract_sha256"):
         raise ValueError(f"{corpus}.{lang}: manifest contract hash mismatch (manifest edited?)")
     src, ref = eval_src_path(corpus, lang), eval_ref_path(corpus, lang)
-    for path, key in ((src, "src_sha256"), (ref, "ref_sha256")):
+    checks = [(src, "src_sha256"), (ref, "ref_sha256")]
+    if manifest.get("ids_sha256"):
+        checks.append((eval_ids_path(corpus, lang), "ids_sha256"))
+    for path, key in checks:
         if not os.path.exists(path):
             raise FileNotFoundError(
                 f"{path} missing; run `python bench.py prepare` to rebuild eval files "
@@ -201,6 +304,8 @@ def verify_manifest(corpus: str, lang: str) -> dict[str, Any]:
     n = len(read_lines(src))
     if n != manifest["n"] or n != len(read_lines(ref)):
         raise ValueError(f"{corpus}.{lang}: line count mismatch vs manifest n={manifest['n']}")
+    if manifest.get("ids_sha256") and len(read_lines(eval_ids_path(corpus, lang))) != n:
+        raise ValueError(f"{corpus}.{lang}: ids file line count does not match n={n}")
     return manifest
 
 
@@ -220,6 +325,9 @@ def write_manifest(corpus: str, lang: str, n: int, provenance: dict[str, Any], f
         "ref_sha256": file_sha256(eval_ref_path(corpus, lang)),
         "provenance": provenance,
     }
+    ids_file = eval_ids_path(corpus, lang)
+    if os.path.exists(ids_file):
+        manifest["ids_sha256"] = file_sha256(ids_file)
     manifest["contract_sha256"] = manifest_contract_hash(manifest)
     path = manifest_path(corpus, lang)
     if os.path.exists(path) and not force:

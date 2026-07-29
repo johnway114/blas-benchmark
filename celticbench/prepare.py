@@ -8,8 +8,23 @@ Downloads (cached under data/, gitignored, never redistributed):
 Outputs:
   eval/flores.{ga,cy,gd}.{src,ref}     full devtest, n=1012
   eval/tatoeba.{all six}.{src,ref}     every EN-paired sentence, deduped
+  eval/tatoeba.{all six}.ids           attribution ids, one line per eval row
   manifests/{corpus}.{lang}.json       committed hash contracts
   manifests/lid-validation.json        langid reliability per language, measured on references
+  manifests/corpus-qa.json             measured corpus defects (celticbench/corpus_qa.py)
+
+The .ids file exists because Tatoeba is CC-BY: a published line has authors,
+and the sentence id is what makes it traceable to them. Format, one line per
+row of the parallel .src/.ref files, in that column order:
+
+  <english_sentence_id> [tab] <native_sentence_id>
+
+Both are upstream Tatoeba sentence ids as published in the per-language
+`{iso3}_sentences.tsv.bz2` (`Sentence id [tab] Lang [tab] Text`) and
+`{iso3}-eng_links.tsv.bz2` (`Sentence id [tab] Translation id`) exports; see
+https://tatoeba.org/en/downloads. Each id resolves to
+https://tatoeba.org/en/sentences/show/<id>, which names the contributor.
+FLORES has no per-row upstream id, so it gets no .ids file.
 
 Deterministic: Tatoeba pairs are ordered by (target sentence id) ascending and
 deduplicated on the English side, so a rebuild from identical upstream bytes
@@ -27,9 +42,10 @@ from typing import Any, Iterator
 import certifi
 import requests
 
+from .corpus_qa import build_corpus_qa, summary_lines
 from .lib import (
-    DATA, EVAL, LANGS, MANIFESTS, canonical_json, eval_ref_path,
-    eval_src_path, file_sha256, read_lines, write_lines, write_manifest,
+    DATA, EVAL, LANGS, MANIFESTS, all_corpora, canonical_json, eval_ids_path,
+    eval_ref_path, eval_src_path, file_sha256, read_lines, write_lines, write_manifest,
 )
 
 FLORES_URL = "https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz"
@@ -139,6 +155,7 @@ def build_tatoeba(force: bool = False) -> None:
         seen: set[str] = set()
         src: list[str] = []
         ref: list[str] = []
+        ids: list[str] = []
         for _, native_id, eng_id in plan["links"]:
             eng_text = english.get(eng_id, "").strip()
             native_text = plan["native"].get(native_id, "").strip()
@@ -147,8 +164,12 @@ def build_tatoeba(force: bool = False) -> None:
             seen.add(eng_text)
             src.append(eng_text)
             ref.append(native_text)
+            # CC-BY attribution: the row stays traceable to its contributors
+            # via https://tatoeba.org/en/sentences/show/<id> on either side.
+            ids.append(f"{eng_id}\t{native_id}")
         write_lines(eval_src_path("tatoeba", lang), src)
         write_lines(eval_ref_path("tatoeba", lang), ref)
+        write_lines(eval_ids_path("tatoeba", lang), ids)
         archives = plan["archives"]
         provenance = {
             "dataset": "Tatoeba per-language exports",
@@ -161,52 +182,67 @@ def build_tatoeba(force: bool = False) -> None:
             "english_archive": "eng_sentences.tsv.bz2",
             "english_archive_sha256": eng_sha,
             "selection": "all EN-paired sentences, ordered by target sentence id, deduplicated on English side",
+            "ids_format": "<english_sentence_id>\\t<native_sentence_id>, upstream Tatoeba sentence ids, one line per eval row",
+            "ids_permalink": "https://tatoeba.org/en/sentences/show/{id}",
         }
         write_manifest("tatoeba", lang, len(src), provenance, force=force)
         print(f"tatoeba {lang}: n={len(src)}")
 
 
-def build_lid_validation() -> None:
-    """Measure langid reliability on the gold references themselves.
+def _lid_side_stats(lines: list[str], expected: str) -> dict[str, Any]:
+    from .langid import detect, is_off_target
 
-    Two numbers per (language, corpus):
+    hits = sum(1 for line in lines if detect(line)[0] == expected)
+    false_positives = sum(1 for line in lines if is_off_target(line, expected))
+    return {
+        "n": len(lines),
+        "recognized": round(hits / len(lines), 4),
+        "false_positive_rate": round(false_positives / len(lines), 4),
+    }
+
+
+def build_lid_validation() -> None:
+    """Measure langid reliability on the gold text itself, both sides.
+
+    Two numbers per side:
       recognized           share of gold lines detected as the right language
       false_positive_rate  share of gold lines the off-target metric would
                            wrongly flag (confidently detected as ANOTHER
                            language) -- this number decides whether
                            off-target is authoritative or advisory there
-    """
-    from .langid import CONFIDENCE_THRESHOLD, detect, ensure_model, is_off_target
 
-    ensure_model()
+    The English side is measured too, and separately per language pair: an
+    XX -> EN hypothesis is judged against English, so labelling it with the
+    detector's Manx false-positive rate would describe the wrong measurement.
+    """
+    from .langid import CONFIDENCE_THRESHOLD, ensure_model
+
+    # The off-target metric is only reproducible against a specific detector
+    # build: lid.176.ftz is a mutable URL, so pin the bytes that produced
+    # these rates, not just the filename.
+    model_path = ensure_model()
     report: dict[str, Any] = {
-        "model": "lid.176.ftz",
+        "model": os.path.basename(model_path),
+        "model_sha256": file_sha256(model_path),
+        "model_url": LID_URL,
         "confidence_threshold": CONFIDENCE_THRESHOLD,
         "advisory_false_positive_threshold": 0.05,
         "languages": {},
+        "english": {},
     }
-    for corpus in ("flores", "tatoeba"):
+    # Every built corpus, Track B slices included: an unmeasured corpus would
+    # otherwise publish off-target rates with no known false-positive floor.
+    for corpus in all_corpora():
         for lang, meta in LANGS.items():
-            path = eval_ref_path(corpus, lang)
-            if not os.path.exists(path):
+            ref_file = eval_ref_path(corpus, lang)
+            if not os.path.exists(ref_file):
                 continue
-            lines = [line for line in read_lines(path) if line.strip()]
-            if not lines:
+            celtic = [line for line in read_lines(ref_file) if line.strip()]
+            english = [line for line in read_lines(eval_src_path(corpus, lang)) if line.strip()]
+            if not celtic or not english:
                 continue
-            hits = 0
-            false_positives = 0
-            for line in lines:
-                label, _prob = detect(line)
-                if label == meta["lid"]:
-                    hits += 1
-                if is_off_target(line, meta["lid"]):
-                    false_positives += 1
-            entry = report["languages"].setdefault(lang, {})
-            entry[corpus] = {
-                "n": len(lines),
-                "recognized": round(hits / len(lines), 4),
-                "false_positive_rate": round(false_positives / len(lines), 4),
-            }
+            report["languages"].setdefault(lang, {})[corpus] = _lid_side_stats(celtic, meta["lid"])
+            report["english"].setdefault(corpus, {})[lang] = _lid_side_stats(english, "en")
     path = os.path.join(MANIFESTS, "lid-validation.json")
     with open(path, "w", encoding="utf-8") as handle:
         handle.write(canonical_json(report) + "\n")
@@ -216,6 +252,9 @@ def build_lid_validation() -> None:
             for c, v in by_corpus.items()
         )
         print(f"lid {lang}: {summary}")
+    for corpus, by_lang in report["english"].items():
+        worst = max(by_lang.values(), key=lambda v: v["false_positive_rate"])
+        print(f"lid en on {corpus}: worst fp {worst['false_positive_rate']:.1%}")
 
 
 def prepare(force: bool = False) -> None:
@@ -229,4 +268,7 @@ def prepare(force: bool = False) -> None:
     _download(LID_URL, LID_PATH)
     print("== langid validation on references ==")
     build_lid_validation()
+    print("== corpus QA ==")
+    for line in summary_lines(build_corpus_qa()):
+        print(line)
     print("prepare: done")

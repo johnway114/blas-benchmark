@@ -1,0 +1,28 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  offline-suite:
+    # Everything here runs with no API keys, no model weights and no network:
+    # if the suite ever needs one of those, the harness has stopped being
+    # reproducible by a stranger with a clean checkout.
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install -r requirements.txt
+      - run: python -m pytest -q
+      - name: registry and CLI stay importable without credentials
+        run: |
+          python bench.py plan
+          python -c "import celticbench.providers, celticbench.scoring, celticbench.leaderboard"

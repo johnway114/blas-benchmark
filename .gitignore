@@ -3,6 +3,7 @@
 __pycache__/
 *.pyc
 .pytest_cache/
+.omp/
 
 # Credentials
 .env
@@ -13,7 +14,10 @@ __pycache__/
 data/
 eval/
 
-# Run outputs: hypotheses and caches stay local; receipts for published
-# runs are committed (they are the audit trail). scores/ is committed.
-out/*
-!out/*.receipt.json
+# Run outputs. Hypotheses AND their receipts are committed: a receipt proves
+# which bytes were scored, so without those bytes a clean checkout cannot
+# re-verify a published number, only take our word for it. The line-level
+# cache is a local optimisation and stays out.
+out/cache/
+
+# scores/ and archive/ are committed: they are the published record.

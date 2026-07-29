@@ -37,11 +37,30 @@ def test_blank_copy_and_off_target_rates():
     metrics = track_c_metrics(sources, hyps, expected_lang="kw")
     assert metrics["blank_rate"] == 0.25
     assert metrics["copy_rate"] == 0.5
-    # Blanks are never off-target; copies and Turkish should be flagged as
-    # confidently non-Cornish. Allow the copy lines or Turkish to individually
-    # fall under the confidence threshold, but at least one must fire.
-    assert metrics["off_target_rate"] >= 0.25
+    # The blank line is a blank, not a wrong language: it leaves the
+    # off-target denominator entirely, so three lines are judged, not four.
+    assert metrics["off_target_n"] == 3
+    # Allow an individual copy line or the Turkish to fall under the
+    # confidence threshold, but at least one must fire.
+    assert metrics["off_target_rate"] >= 1 / 3
     assert metrics["off_target_expected_lang"] == "kw"
+
+
+def test_off_target_ignores_blank_lines_in_its_denominator():
+    """An all-blank run is 100% blank and 0% off-target, never the reverse."""
+    metrics = track_c_metrics(["Good morning."] * 3, ["", "", ""], expected_lang="kw")
+    assert metrics["blank_rate"] == 1.0
+    assert metrics["off_target_n"] == 0
+    assert metrics["off_target_rate"] is None
+
+
+@pytest.mark.skipif(not _lid_available(), reason="lid model not downloaded; run bench.py prepare")
+def test_length_ratio_flags_runaway_and_truncated_output():
+    sources = ["The weather is fine today.", "The weather is fine today."]
+    hyps = ["Mae'r tywydd yn braf heddiw.", "Mae'r tywydd yn braf heddiw. " * 20]
+    metrics = track_c_metrics(sources, hyps, expected_lang="cy")
+    assert metrics["length_ratio_n"] == 2
+    assert metrics["length_ratio_outlier_rate"] == 0.5
 
 
 @pytest.mark.skipif(not _lid_available(), reason="lid model not downloaded; run bench.py prepare")
