@@ -25,21 +25,27 @@ scored with the same metrics. Current results: [LEADERBOARD.md](LEADERBOARD.md).
 Method and caveats: [METHODOLOGY.md](METHODOLOGY.md). What changed and what it
 invalidates: [CHANGELOG.md](CHANGELOG.md).
 
-## What is measured
+## v3 scope
 
-| Role | Systems |
+The v3 panel contains exactly six hosted frontier systems:
+
+| System ID | Display name |
 | --- | --- |
-| General-purpose, flagship | GPT-5.6 Sol, Claude Opus 5, Gemini 3.6 Flash, DeepSeek V4 Pro, Kimi K3, Qwen3.7 Max |
-| General-purpose, efficient | GPT-5.6 Luna, Claude Haiku 4.5, DeepSeek V4 Flash |
-| Dedicated MT services | Google Cloud Translation NMT, Google Cloud Translation LLM, DeepL, Azure AI Translator, Amazon Translate, Alibaba Cloud MT |
-| Open-weight MT | Opus-MT en-cel/cel-en, MADLAD-400 3B, NLLB-200 600M, TranslateGemma 4B, SalamandraTA 7B, Tiny Aya Water |
-| Open-weight general | Qwen3.5 9B |
+| `gpt-5.6-sol` | GPT-5.6 Sol |
+| `claude-opus-5` | Claude Opus 5 |
+| `gemini-3.6-flash` | Gemini 3.6 Flash |
+| `deepseek-v4-pro` | DeepSeek V4 Pro |
+| `kimi-k3` | Kimi K3 |
+| `qwen3.7-max` | Qwen3.7 Max |
 
-General-purpose models are run on all six languages, because nobody publishes
-a Celtic support contract for them and that is exactly the question. Dedicated
-MT services are run only on the languages their own published language list
-contains; the rest show as `n/a`, never as a score of zero. Only one
-commercial API (Alibaba) lists Manx and Cornish at all.
+Every system runs every available corpus for all six languages in both
+directions with one fixed prompt. That is 24 runs and 25,006 sentence
+requests per system: 144 runs and 150,036 requests for the complete edition.
+
+The roster is frozen for the edition. A model may be added, removed or
+repinned only at an edition boundary: archive the outgoing leaderboard and
+scores, bump the method version, record the change in CHANGELOG.md, and rerun
+the complete panel. Results from different editions are never mixed.
 
 ## Why
 
@@ -48,40 +54,29 @@ FLORES covers only three of the six, and no leaderboard anywhere answers
 "can this year's flagship model translate Manx?". Speakers of small languages
 cannot easily check AI output themselves; this benchmark checks in public.
 
-Measured reality this harness reproduces: the only open model that claims
-Cornish support answers in **Turkish** on 77.9% of all 3402 Tatoeba lines
-(`opus-mt-cel`, English -> Cornish; 4.2% are detected as Cornish, chrF++ 9.9).
-That is the whole benchmark in one row: a model advertising a language it
-cannot write, and nobody measuring it.
+The benchmark makes that question measurable across all six languages,
+including the three that lack FLORES coverage and the three that lack a fresh
+parallel-English harvest. Sparse or imperfect public data is reported as a
+caveat rather than hidden behind a narrower language roster.
 
 ## Quickstart
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-# optional, for the local open-weight models:
-.venv/bin/pip install -r requirements-local.txt
-
-cp .env.example .env          # fill in whichever credentials you have
+cp .env.example .env          # add the six provider credentials
 
 .venv/bin/python bench.py prepare        # download corpora, build + verify eval sets
-.venv/bin/python bench.py doctor         # check credentials and pinned model IDs
-.venv/bin/python bench.py plan           # the full run matrix
+.venv/bin/python bench.py doctor         # check all six credentials and hosted model pins
+.venv/bin/python bench.py plan           # 144 runs, 150,036 requests
 .venv/bin/python bench.py run --all-ready
 .venv/bin/python bench.py score          # verify receipts, compute metrics
 .venv/bin/python bench.py leaderboard    # render LEADERBOARD.md
 ```
 
-The local models (`opus-mt-cel`, `nllb-600m`, `madlad400-3b`, `qwen3.5-9b`,
-`salamandrata-7b`) need no credentials at all:
-
-```bash
-.venv/bin/python bench.py run opus-mt-cel tatoeba kw en-xx
-```
-
 Because the hypotheses are committed, `prepare` followed by `score` re-derives
-every published Track A number with no credentials and no model weights: the
-corpora come from upstream, the outputs come from git. Track B is the
-exception, and says so in METHODOLOGY.md.
+every published Track A number without credentials: the corpora come from
+upstream and the outputs come from the repository. Track B is the exception,
+and says so in METHODOLOGY.md.
 
 Track B, the fresh harvest, is sealed quarterly and committed before any
 model sees it:
@@ -110,10 +105,9 @@ model sees it:
    (`manifests/lid-validation.json`, both sides, every corpus); where its
    false-positive rate exceeds 5% the leaderboard labels the metric
    *advisory*, and where nobody has measured it at all, *unmeasured*.
-7. **Coverage is a fact, not a score.** A dedicated MT service is only run on
-   the languages its own published list contains; the rest render as `n/a`.
-   Fabricating a zero for a language a vendor never offered would be a lie
-   about the vendor and about the language.
+7. **Coverage is fixed within an edition.** Every one of the six systems runs
+   all six Celtic languages in both directions. Missing credentials or an
+   invalid hosted pin block completion; they never narrow the matrix.
 8. **Corpus defects are published too.** `manifests/corpus-qa.json` counts
    the duplicates, control characters and length outliers in the corpora we
    score against, rather than quietly cleaning them.
@@ -128,7 +122,3 @@ model sees it:
 - Track B text is quoted from official publishers under their own terms
   (Welsh Government: OGL v3.0); only per-row URLs, dates and hashes are
   committed here, never the harvested text.
-- Benchmark-only weights, scored as reference points and shippable by
-  nobody: NLLB-200 and Tiny Aya Water (both CC-BY-NC 4.0). TranslateGemma is
-  under the Gemma Terms and SalamandraTA under GPL-3.0; both are gated or
-  copyleft and are flagged in every table they appear in.

@@ -42,11 +42,10 @@ def workspace(tmp_path, monkeypatch):
     return tmp_path, manifest
 
 
-def _write_run(manifest, system_id="opus-mt-cel", hyps=HYP, direction="en-xx",
+def _write_run(manifest, system_id="gpt-5.6-sol", hyps=HYP, direction="en-xx",
                lang="kw", limit=None, **overrides):
     """Write a hypothesis plus the receipt runner.py would have written."""
     entry = SYSTEMS[system_id]
-    prompted = entry["provider"] != "hf_local" or entry.get("family") == "causal"
     out = hyp_path("tatoeba", lang, direction, system_id, limit)
     write_lines(out, hyps)
     input_path, reference_path = direction_io("tatoeba", lang, direction)
@@ -63,7 +62,6 @@ def _write_run(manifest, system_id="opus-mt-cel", hyps=HYP, direction="en-xx",
         "revision": None,
         "pin_status": entry["pin_status"],
         "license": entry["license"],
-        "benchmark_only": False,
         "reasoning": None,
         "corpus": "tatoeba",
         "lang": lang,
@@ -72,8 +70,8 @@ def _write_run(manifest, system_id="opus-mt-cel", hyps=HYP, direction="en-xx",
         "limit": limit,
         "partial_slice": limit is not None,
         "fails": 0,
-        "prompt_template": PROMPT_TEMPLATE if prompted else None,
-        "prompt_sha256": PROMPT_SHA256 if prompted else None,
+        "prompt_template": PROMPT_TEMPLATE,
+        "prompt_sha256": PROMPT_SHA256,
         "decoding_declared": dict(entry["decoding"]),
         "decoding_declared_sha256": sha256_json(entry["decoding"]),
         "decoding": dict(entry["decoding"]),
@@ -134,6 +132,10 @@ def test_scores_record_metric_and_detector_provenance(workspace):
     _, manifest = workspace
     _write_run(manifest)
     payload = scoring.score_all()
+    assert payload["method_version"] == "v3"
+    assert len(payload["coverage"]) == 72
+    assert all(cell["supported"] and cell["reason"] is None
+               for cell in payload["coverage"])
     # A chrF++ number without its sacrebleu signature is not reproducible.
     assert "chrF" in payload["metric_signatures"]["chrf_pp"]
     assert "BLEU" in payload["metric_signatures"]["bleu"]
@@ -150,7 +152,7 @@ def test_tampered_hypothesis_is_excluded(workspace):
 
 
 def test_missing_receipt_is_excluded(workspace):
-    write_lines(hyp_path("tatoeba", "kw", "en-xx", "opus-mt-cel"), HYP)
+    write_lines(hyp_path("tatoeba", "kw", "en-xx", "gpt-5.6-sol"), HYP)
     assert _only_exclusion(scoring.score_all()) == "no receipt"
 
 
@@ -183,7 +185,7 @@ def test_unregistered_system_receipt_is_excluded(workspace):
     _, manifest = workspace
     out, receipt = _write_run(manifest)
     receipt["system"] = "mystery-model"
-    renamed = out.replace("opus-mt-cel", "mystery-model")
+    renamed = out.replace("gpt-5.6-sol", "mystery-model")
     os.rename(out, renamed)
     os.remove(receipt_path(out))
     _save(renamed, receipt)
@@ -249,17 +251,11 @@ def test_receipt_line_count_must_match_the_file(workspace):
     assert "receipt claims n=99" in _only_exclusion(scoring.score_all())
 
 
-def test_combination_the_registry_no_longer_offers_is_excluded(workspace):
-    _, manifest = workspace
-    # Google's NMT language list has no Cornish, so an old Cornish run of it
-    # can never be published again, however well-formed its receipt is.
-    _write_run(manifest, system_id="google-translate-v2")
-    assert "registry no longer supports" in _only_exclusion(scoring.score_all())
 
 
-def test_run_from_another_method_version_is_excluded(workspace):
-    """A v1 run is not a v2 row, however intact its bytes are."""
+def test_v2_receipt_is_excluded_from_method_v3(workspace):
     _, manifest = workspace
-    _write_run(manifest, method_version="v1")
+    _write_run(manifest, method_version="v2")
     reason = _only_exclusion(scoring.score_all())
-    assert "made under method 'v1'" in reason
+    assert "made under method 'v2'" in reason
+    assert "published method is v3" in reason

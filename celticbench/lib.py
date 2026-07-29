@@ -31,41 +31,17 @@ SCHEMA_SLICE = "celticbench.trackb-slice.v1"
 # inside one version, so a receipt from another version is refused rather than
 # quietly ranked against this one. Bumping it means re-running every system;
 # CHANGELOG.md says what each bump invalidated.
-METHOD_VERSION = "v2"
+METHOD_VERSION = "v3"
 
-# Canonical language table. Keys are ISO 639-1 (all six Celtic languages have
-# one). Per-language values map to the code each corpus or system expects;
-# None means that corpus or system does not cover the language, and the
-# registry turns that None into a hard refusal instead of a failed request.
-#
-# The provider columns are transcribed from each vendor's current published
-# language list (cited in METHODOLOGY.md). They are claims about *availability*
-# only: whether a call is even accepted. Quality is what the benchmark measures.
+# Canonical language table. Keys are ISO 639-1. Values retain only language
+# names, corpus identifiers, and the language-ID code used by scoring/QA.
 LANGS: dict[str, dict[str, Any]] = {
-    "ga": {"name": "Irish", "flores": "gle_Latn", "tatoeba": "gle", "lid": "ga",
-           "nllb": "gle_Latn", "opus_cel": "gle", "madlad": "ga",
-           "google": "ga", "google_tllm": "ga", "deepl": "GA",
-           "azure": "ga", "aws": "ga", "alibaba": "ga"},
-    "cy": {"name": "Welsh", "flores": "cym_Latn", "tatoeba": "cym", "lid": "cy",
-           "nllb": "cym_Latn", "opus_cel": "cym", "madlad": "cy",
-           "google": "cy", "google_tllm": "cy", "deepl": "CY",
-           "azure": "cy", "aws": "cy", "alibaba": "cy"},
-    "gd": {"name": "Scottish Gaelic", "flores": "gla_Latn", "tatoeba": "gla", "lid": "gd",
-           "nllb": "gla_Latn", "opus_cel": "gla", "madlad": "gd",
-           "google": "gd", "google_tllm": "gd", "deepl": None,
-           "azure": None, "aws": None, "alibaba": None},
-    "br": {"name": "Breton", "flores": None, "tatoeba": "bre", "lid": "br",
-           "nllb": "bre_Latn", "opus_cel": "bre", "madlad": "br",
-           "google": "br", "google_tllm": None, "deepl": "BR",
-           "azure": None, "aws": None, "alibaba": "br"},
-    "gv": {"name": "Manx", "flores": None, "tatoeba": "glv", "lid": "gv",
-           "nllb": None, "opus_cel": "glv", "madlad": "gv",
-           "google": None, "google_tllm": None, "deepl": None,
-           "azure": None, "aws": None, "alibaba": "gv"},
-    "kw": {"name": "Cornish", "flores": None, "tatoeba": "cor", "lid": "kw",
-           "nllb": None, "opus_cel": "cor", "madlad": "kw",
-           "google": None, "google_tllm": None, "deepl": None,
-           "azure": None, "aws": None, "alibaba": "kw"},
+    "ga": {"name": "Irish", "flores": "gle_Latn", "tatoeba": "gle", "lid": "ga"},
+    "cy": {"name": "Welsh", "flores": "cym_Latn", "tatoeba": "cym", "lid": "cy"},
+    "gd": {"name": "Scottish Gaelic", "flores": "gla_Latn", "tatoeba": "gla", "lid": "gd"},
+    "br": {"name": "Breton", "flores": None, "tatoeba": "bre", "lid": "br"},
+    "gv": {"name": "Manx", "flores": None, "tatoeba": "glv", "lid": "gv"},
+    "kw": {"name": "Cornish", "flores": None, "tatoeba": "cor", "lid": "kw"},
 }
 ALL_LANGS = tuple(LANGS)
 DIRECTIONS = ("en-xx", "xx-en")
@@ -134,20 +110,14 @@ def harness_version() -> str:
 
 
 def runtime_versions() -> dict[str, str]:
-    """Versions of every library that can move a published number.
-
-    Recorded in each receipt: sacrebleu decides chrF++/BLEU, torch and
-    transformers decide local-anchor output, and the Python version decides
-    both. A rerun that disagrees is a different measurement, not a mystery.
-    """
+    """Versions of Python and sacrebleu, the runtime inputs to published scores."""
     import platform
 
     versions = {"python": platform.python_version()}
-    for name in ("sacrebleu", "torch", "transformers"):
-        try:
-            versions[name] = __import__(name).__version__
-        except Exception:
-            continue
+    try:
+        versions["sacrebleu"] = __import__("sacrebleu").__version__
+    except Exception:
+        pass
     return versions
 
 

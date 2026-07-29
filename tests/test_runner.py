@@ -60,6 +60,7 @@ def test_run_writes_hypotheses_and_a_binding_receipt(workspace, monkeypatch):
 
     receipt = _receipt_for(out)
     assert receipt["schema"] == SCHEMA_RECEIPT
+    assert receipt["method_version"] == "v3"
     assert receipt["hypothesis_sha256"] == file_sha256(out)
     assert receipt["eval_input_sha256"] == file_sha256(lib.eval_src_path("tatoeba", "kw"))
     assert receipt["eval_reference_sha256"] == file_sha256(lib.eval_ref_path("tatoeba", "kw"))
@@ -141,18 +142,7 @@ def test_unsupported_combination_refuses_before_any_request(workspace, monkeypat
     calls: list[str] = []
     _fake_vendor(monkeypatch, calls=calls)
     with pytest.raises(SystemExit, match="refusing"):
-        runner.run_system("google-translate-v2", "tatoeba", "kw", "en-xx")
+        runner.run_system("gpt-5.6-sol", "tatoeba", "zz", "en-xx")
     assert calls == []
 
 
-def test_local_run_is_not_counted_as_hosted_requests(workspace, monkeypatch):
-    """`requests` is what a bill is made of; local inference costs none."""
-    monkeypatch.setattr(runner.hf_local, "translate_batch",
-                        lambda entry, texts, lang, direction:
-                        ([f"<{t}>" for t in texts], "Helsinki-NLP/opus-mt-en-cel@e79438534e0b"))
-    out = runner.run_system("opus-mt-cel", "tatoeba", "kw", "en-xx")
-    receipt = _receipt_for(out)
-    assert receipt["usage"]["requests"] == 0
-    assert receipt["usage"]["cache_hits"] == 0
-    assert receipt["model_reported"] == "Helsinki-NLP/opus-mt-en-cel@e79438534e0b"
-    assert receipt["prompt_sha256"] is None, "a seq2seq anchor takes no prompt"

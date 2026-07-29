@@ -1,4 +1,4 @@
-# Core: API benchmarking + scoring. Python >= 3.10.
+# Hosted benchmark runtime, scoring, and test tooling. Python >= 3.10.
 requests>=2.31
 certifi>=2024.2.2
 sacrebleu>=2.4

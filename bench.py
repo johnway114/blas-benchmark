@@ -11,8 +11,8 @@ Typical lifecycle:
     python bench.py score                # verify receipts, compute all metrics
     python bench.py leaderboard          # render LEADERBOARD.md
 
-Running with no network access, no keys, and no torch still supports:
-prepare (needs network once), plan, score, leaderboard, qa, doctor (reports).
+Running with no network access and no keys still supports prepare (after its
+one network build), plan, score, leaderboard, qa, and doctor (which reports).
 """
 from __future__ import annotations
 
@@ -37,40 +37,27 @@ def _missing_credentials(system_id: str) -> list[str]:
 def cmd_plan(_args: argparse.Namespace) -> int:
     rows = matrix()
     runnable = [r for r in rows if r["supported"]]
-    print(f"{len(runnable)} runnable combinations "
-          f"({len(rows) - len(runnable)} unsupported skipped)\n")
+    print(f"{len(runnable)} runnable combinations\n")
     by_system: dict[str, int] = {}
     for row in runnable:
         by_system[row["system"]] = by_system.get(row["system"], 0) + 1
     width = max(len(s) for s in by_system)
-    for tier in ("flagship-chat", "efficient-chat", "dedicated-mt",
-                 "open-mt", "open-anchor", "open-general"):
-        tier_systems = [s for s in sorted(by_system) if SYSTEMS[s]["tier"] == tier]
-        if not tier_systems:
-            continue
-        print(f"{tier}:")
-        for system_id in tier_systems:
-            entry = SYSTEMS[system_id]
-            missing = _missing_credentials(system_id)
-            if not credential_envs(entry):
-                state = "local"
-            elif missing:
-                state = "needs " + ", ".join(missing)
-            else:
-                state = "credentials OK"
-            print(f"  {system_id:<{width}}  {by_system[system_id]:>3} combos  "
-                  f"[{entry['pin_status']:>11}]  {state}")
+    print("flagship-chat:")
+    for system_id in sorted(by_system):
+        entry = SYSTEMS[system_id]
+        missing = _missing_credentials(system_id)
+        state = "needs " + ", ".join(missing) if missing else "credentials OK"
+        print(f"  {system_id:<{width}}  {by_system[system_id]:>3} combos  "
+              f"[{entry['pin_status']:>11}]  {state}")
     total_requests = sum(
         _combo_n(row["corpus"], row["lang"]) for row in runnable
-        if SYSTEMS[row["system"]].get("key_env") is not None
     )
     ready_requests = sum(
         _combo_n(row["corpus"], row["lang"]) for row in runnable
-        if SYSTEMS[row["system"]].get("key_env") is not None
-        and not _missing_credentials(row["system"])
+        if not _missing_credentials(row["system"])
     )
-    print(f"\nhosted-API requests: ~{total_requests:,} for the full bake-off, "
-          f"~{ready_requests:,} for the systems whose credentials are present")
+    print(f"\nhosted requests: ~{total_requests:,} for the full bake-off, "
+          f"~{ready_requests:,} with currently available credentials")
     return 0
 
 
@@ -93,17 +80,13 @@ def cmd_run(args: argparse.Namespace) -> int:
                 continue
             if args.system and row["system"] != args.system:
                 continue
-            entry = SYSTEMS[row["system"]]
             if _missing_credentials(row["system"]):
-                skipped += 1
-                continue
-            if entry["provider"] == "hf_local" and args.api_only:
                 skipped += 1
                 continue
             run_system(row["system"], row["corpus"], row["lang"], row["direction"],
                        limit=args.limit, sleep=args.sleep, workers=args.workers)
             ran += 1
-        print(f"run --all-ready: {ran} combinations run, {skipped} skipped (missing key/filtered)")
+        print(f"run --all-ready: {ran} combinations run, {skipped} skipped (missing credentials)")
         return 0
 
     if not (args.system and args.corpus and args.lang and args.direction):
@@ -172,14 +155,11 @@ def cmd_doctor(_args: argparse.Namespace) -> int:
     for system_id, entry in SYSTEMS.items():
         result = doctor_check(system_id, entry)
         status = result["status"]
-        # NO_LANGUAGE_PROBE is a fact about the vendor (Alibaba publishes no
-        # list-languages operation), not a problem with our setup.
-        marker = {"OK": " ", "MISSING_KEY": "-", "NEEDS_DEPS": "-",
-                  "NEEDS_HF_TOKEN": "-", "NO_LANGUAGE_PROBE": " "}.get(status, "!")
+        marker = {"OK": " ", "MISSING_KEY": "-"}.get(status, "!")
         print(f"[{marker}] {system_id:<{width}} {status:<22} {result['detail']}")
-        if status in ("AUTH_OR_NETWORK_FAIL", "MODEL_NOT_FOUND", "LANGS_MISSING"):
+        if status in ("AUTH_OR_NETWORK_FAIL", "MODEL_NOT_FOUND"):
             worst = 1
-    print("\nlegend: [ ] ready, [-] waiting on key/deps, [!] needs attention")
+    print("\nlegend: [ ] ready, [-] waiting on credentials, [!] needs attention")
     print("MODEL_NOT_FOUND on a provisional pin: update registry.py with a suggested ID.")
     return worst
 
@@ -206,8 +186,6 @@ def main(argv: list[str] | None = None) -> int:
     p_run.add_argument("--all-ready", action="store_true",
                        help="run every supported combination whose credentials exist; "
                             "combine with SYSTEM to scope to one system")
-    p_run.add_argument("--api-only", action="store_true",
-                       help="with --all-ready: skip local systems")
     p_run.add_argument("--limit", type=int, default=None,
                        help="only the first N lines; written to its own .limitN file "
                             "and marked partial in scores")

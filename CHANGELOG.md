@@ -7,6 +7,35 @@ with what it invalidates.
 
 Dates are the date of the change, not of the data.
 
+## v3 - 2026-07-29
+
+v3 is a clean edition boundary. No v1 or v2 score is comparable with v3, and
+every pre-v3 receipt is refused by v3 scoring rather than migrated.
+
+### Changed - frontier-only panel
+
+- The live roster is now exactly `gpt-5.6-sol`, `claude-opus-5`,
+  `gemini-3.6-flash`, `deepseek-v4-pro`, `kimi-k3`, and `qwen3.7-max`.
+  Efficient variants, dedicated translation services and local models were
+  removed from the current runtime and panel.
+- Every system runs all six Celtic languages in both directions with the same
+  fixed prompt: 24 runs and 25,006 requests per system, 144 runs and 150,036
+  requests for the complete edition. Coverage exceptions no longer produce a
+  smaller system matrix.
+- Model roster and pin changes are edition changes. The outgoing leaderboard
+  and scores must be archived before the method version changes, and the new
+  edition requires a complete rerun.
+
+### Archived and invalidated
+
+- The v2 leaderboard is frozen at
+  `archive/LEADERBOARD-20260729T214924+0000.md` and its scores at
+  `archive/scores-20260729T214924+0000.json`.
+- The 24 v2 Opus-MT hypothesis/receipt pairs are historical artifacts under
+  `archive/v2/out/`; they are not live v3 results.
+- All v2 results are invalid under the v3 method. Nothing is carried forward:
+  every published v3 score requires a new v3 run and receipt.
+
 ## v2 - 2026-07-29
 
 The v1 numbers are not comparable with v2 numbers. Every v1 receipt is

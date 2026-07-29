@@ -8,61 +8,44 @@ two ever disagree, METHODOLOGY.md wins and this file has a bug.
 ```bash
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
-.venv/bin/pip install -r requirements-local.txt   # optional: local models
-cp .env.example .env                              # add whichever keys exist
+cp .env.example .env                              # add all six provider keys
 .venv/bin/python bench.py prepare                 # ~55 MB of downloads, ~1 min
-.venv/bin/python -m pytest -q                     # 201 tests, all offline
+.venv/bin/python -m pytest -q
 ```
 
 `prepare` is idempotent and hash-checked: re-running it verifies the built
-eval sets against `manifests/` and refuses silently-changed upstream data
+eval sets against `manifests/` and refuses silently changed upstream data
 (`--force` accepts a deliberate, to-be-published corpus change). It ends by
 rebuilding `manifests/corpus-qa.json` and `manifests/lid-validation.json`,
 the two measurement artifacts the leaderboard's caveats come from.
 
 `requirements.txt` is the install contract; `requirements.lock` is the
 reproduction contract, a `pip freeze` of the environment behind the current
-LEADERBOARD.md. Install the lock when you need to reproduce a published
-number exactly rather than merely run the harness. Every receipt records the
-subset of it that can move a number (Python, sacrebleu, torch, transformers).
+LEADERBOARD.md. Install the lock when reproducing a published number exactly.
+Every receipt records the runtime versions that can move that number.
 
-Several systems need more than one variable (`aws-translate` needs three).
-`plan` and `doctor` both list every variable that is still missing, not just
-the first.
+Each v3 system needs one provider key. `plan` and `doctor` list every missing
+key, so an incomplete environment cannot silently narrow the edition.
+
+The edition roster is `gpt-5.6-sol`, `claude-opus-5`,
+`gemini-3.6-flash`, `deepseek-v4-pro`, `kimi-k3`, and `qwen3.7-max`.
 
 ## Launch bake-off
 
-1. `bench.py doctor` - every hosted system should read `OK`. For any
-   `MODEL_NOT_FOUND` on a `provisional`/`alias` pin, update the ID in
-   `celticbench/registry.py` from the doctor's suggestions and re-run
-   doctor. Commit the pin change.
-   - `LANGS_MISSING` means the vendor's live language list no longer matches
-     the coverage the registry claims. Fix the `LANGS` table in
-     `celticbench/lib.py`, do not widen the run.
-   - `NO_LANGUAGE_PROBE` is expected for `alibaba-mt`: that API publishes no
-     list-languages operation, so its coverage cannot be checked live.
-   - `NEEDS_HF_TOKEN` means a gated local model whose licence you have not
-     accepted yet (`translategemma-4b`, `tiny-aya-water`).
-2. `bench.py plan` - sanity-check the matrix and request volume before
-   spending.
-3. `bench.py run --all-ready` - runs every supported combination for every
-   system with credentials, plus the local models. Resumable at any point
-   (line-level cache); re-invoking skips finished lines.
-   - `--api-only` skips local models (useful on a machine without torch).
-     With no keys set, `--all-ready` runs just the local ones.
+1. `bench.py doctor` - all six systems must read `OK`. If a provisional pin
+   reports `MODEL_NOT_FOUND`, do not edit the live edition in place. Archive
+   its outgoing results, bump the method version and document the invalidation;
+   only then update the ID in `celticbench/registry.py` from the doctor's
+   suggestions, re-run doctor and rerun the complete panel.
+2. `bench.py plan` - confirm exactly 144 runs and 150,036 requests before
+   spending. Any smaller matrix means a credential or registry problem; do
+   not proceed with a narrowed edition.
+3. `bench.py run --all-ready` - runs every combination for the six systems.
+   It is resumable through the line-level cache; re-invoking skips finished
+   lines.
    - One system at a time: `bench.py run <system-id> --all-ready`.
-   - `--workers N` runs N hosted requests concurrently; line order in the
-     hypothesis file is unaffected. Start at 4 and watch for 429s.
-   - Download sizes, once: MADLAD-400 3B ~12 GiB, Qwen3.5 9B ~18 GiB,
-     SalamandraTA 7B ~15 GiB, NLLB ~2.5 GiB, Opus-MT ~0.6 GiB.
-   - **Local throughput decides what is feasible where.** Measured on an M4
-     Pro (24 GiB, MPS): Opus-MT runs ~33 lines/second, so its entire matrix
-     across three corpora finishes in about 20 minutes. SalamandraTA 7B in
-     bfloat16 runs ~90 seconds *per line*, which is ~50 hours for one FLORES
-     direction pair; Qwen3.5 9B is worse. Run the billion-parameter local
-     models on a rented GPU, not here. A system that cannot be run within an
-     edition's compute budget is reported as not run - never as a partial row,
-     which would not be comparable anyway.
+   - `--workers N` runs N requests concurrently; line order in the hypothesis
+     file is unaffected. Start at 4 and watch for 429s.
 4. `bench.py score && bench.py leaderboard`.
 5. Review `LEADERBOARD.md` and `scores/scores.json`, then commit them
    together with `out/*.hyp` and `out/*.receipt.json`. The hypotheses are
@@ -70,15 +53,11 @@ the first.
 
 ### Cost expectations
 
-`plan` currently estimates ~313k hosted-API requests for the complete matrix
-(15 hosted systems, both directions, full Tatoeba + FLORES + the sealed Track
-B slice). Requests are single sentences; typical spend is a few dollars for
-efficient tiers and tens of dollars for flagship tiers. The dedicated MT
-services bill by character rather than token, and their matrices are smaller
-because they only run the languages they actually offer. Set a billing alert
-before the first full run. To trial cheaply first, `--limit 50` produces
-partial-slice rows in their own `.limit50` files, clearly flagged and never
-comparable.
+`plan` must report 24 runs and 25,006 sentence requests for each system, or
+144 runs and 150,036 requests for the six-system edition. Requests are single
+sentences. Set provider billing alerts before the first full run. To exercise
+the pipeline cheaply, `--limit 50` writes partial-slice rows to distinct
+`.limit50` files; these are smoke artifacts and are never comparable results.
 
 ## Sealing a Track B slice
 
@@ -104,39 +83,34 @@ git add manifests/trackb-2026q4.*      # commit BEFORE running any system
 - The eval text itself stays local (`eval/` is gitignored); the manifests,
   per-row source URLs and dates are what get committed.
 
-## When a new model releases
+## Changing the model roster
 
-Target: published row within 72 hours of API availability.
+The roster never changes inside a live edition. To add, remove or repin a
+model:
 
-1. Add a registry entry in `celticbench/registry.py`: ID, vendor, provider
-   (`openai_compat` covers any OpenAI-compatible endpoint), `key_env`,
-   tier, `pin_status: "provisional"`, the shared `CHAT_DECODING`. Never pin
-   a `-latest` alias. If the vendor forces a decoding departure, declare it
-   in `decoding_deviation` with the reason rather than quietly complying.
-2. `bench.py doctor` - confirm the pin against the live model list.
-3. Run every combination for just that system:
-   ```bash
-   .venv/bin/python bench.py run <system-id> --all-ready
-   ```
-   (A bare `run --all-ready` also works: finished systems are line-level
-   cached, so only the new system actually spends API calls.)
-4. `bench.py score && bench.py leaderboard`.
-5. Commit: registry pin, hypotheses, receipts, scores.json, LEADERBOARD.md.
-   One commit per system keeps the history auditable.
-6. Write the release note from the row: headline chrF++ vs the standing
-   leaders, off-target anecdotes quoted verbatim from `out/*.hyp` (they are
-   the most legible evidence), and any pin/decoding deviations the receipt
-   recorded.
+1. Archive the outgoing leaderboard and scores with
+   `bench.py leaderboard --archive`, and preserve its hypotheses and receipts.
+2. Bump `method_version` and add a CHANGELOG.md entry stating what the change
+   invalidates.
+3. Update `celticbench/registry.py` with the complete new roster. Use an exact
+   hosted model ID, the appropriate provider key, `pin_status:
+   "provisional"`, and the shared `CHAT_DECODING`; never pin a moving
+   `*-latest` alias.
+4. Run `bench.py doctor` and resolve every credential or pin failure before
+   spending on the matrix.
+5. Run every system across the complete edition, then run `bench.py score`
+   and `bench.py leaderboard`.
+6. Publish the registry, hypotheses, receipts, scores and leaderboard
+   together. Do not carry a receipt or score across the version boundary.
 
 ## Refresh cadence
 
 - **Quarterly**: seal a new Track B slice as above, retire and publish the
   previous one.
-- **Annually, or on any harness/metric change**: bump the leaderboard
-  version, re-run every listed system on the current slices, and
-  `bench.py leaderboard --archive` to freeze the outgoing board and scores
-  under `archive/`. Add a CHANGELOG.md entry saying what the change
-  invalidates. Never mix conditions inside one leaderboard version.
+- **At every model-roster, prompt, harness or metric change**: archive the
+  outgoing leaderboard and scores, bump the method version, document the
+  invalidation, and rerun the complete panel. Never mix conditions or change
+  the roster inside one leaderboard edition.
 
 ## Troubleshooting
 

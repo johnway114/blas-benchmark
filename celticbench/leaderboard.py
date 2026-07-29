@@ -20,11 +20,6 @@ SMALL_N = 50  # below this a score is directional, not comparable
 
 TIER_LABELS = {
     "flagship-chat": "General-purpose models (flagship tier)",
-    "efficient-chat": "General-purpose models (efficient tier)",
-    "dedicated-mt": "Dedicated translation services",
-    "open-mt": "Open-weight translation models",
-    "open-anchor": "Open-weight anchors",
-    "open-general": "Open-weight general models",
 }
 
 
@@ -104,12 +99,7 @@ def _provenance_lines(payload: dict[str, Any]) -> list[str]:
 
 
 def _coverage_table(payload: dict[str, Any]) -> list[str]:
-    """system x language per direction: scored, runnable, or not offered.
-
-    Split by direction because coverage is not symmetric: TranslateGemma
-    documents English into Irish but not Irish into English, and collapsing
-    the two would advertise support that does not exist.
-    """
+    """Render system x language coverage separately for each direction."""
     coverage = payload.get("coverage") or []
     if not coverage:
         return []

@@ -3,8 +3,8 @@
 This document is the public contract for every number the benchmark
 publishes. Anything not written here is not part of the method.
 
-Method version: **v2** (2026-07-29). v1 numbers are not comparable with v2
-numbers; `CHANGELOG.md` says exactly what moved and why.
+Method version: **v3** (2026-07-29). v1 and v2 numbers are historical and are
+not comparable with v3; `CHANGELOG.md` records what moved and what it invalidates.
 
 ## Languages and directions
 
@@ -60,9 +60,9 @@ reference-over-source length-ratio distribution. First measurement
 - Both corpora are public and old enough to be in the training data of every
   modern system. Treat Track A as a *comparability anchor*, not proof of
   generalization. FLORES rows are the trustworthy comparison; **Tatoeba rows
-  are contamination-inflated** for any system trained on OPUS-family data
-  (that includes the Opus-MT and NLLB anchors, and likely most hosted
-  systems).
+  are potentially contamination-inflated because the corpus is public and
+  widely redistributed. This risk applies broadly and cannot be quantified
+  from model disclosures.
 - **Manx has 18 usable pairs.** Its rows are labelled directional and are
   never ranked. That scarcity is a finding in itself.
 - Tatoeba sentences are short and simple; scores there do not transfer to
@@ -202,10 +202,8 @@ sentences. A corpus/language pair with no committed measurement is labelled
 
 ## The fixed prompt
 
-Every *general-purpose* system - hosted chat models and the local open-weight
-general model alike - gets exactly this prompt, no system message,
-temperature 0, top_p 1, max_tokens 2048 (generous so reasoning-style models
-are not truncated):
+Every v3 system gets exactly this prompt, with no system message,
+temperature 0, top_p 1 and max_tokens 2048:
 
 ```
 Translate the following {source language} sentence into {target language}. Output only the {target language} translation as plain text: no quotes, no notes, no explanation, no alternatives.
@@ -213,108 +211,65 @@ Translate the following {source language} sentence into {target language}. Outpu
 {text}
 ```
 
-No per-model prompt tuning, ever: the benchmark measures the model, not our
-prompting. The local general model is greedy (`num_beams=1`,
-`do_sample=false`, `max_new_tokens=256`) so a rerun of the same weights
-reproduces the same bytes.
+There is no per-model or per-language prompt tuning. The benchmark measures
+the system under one published instruction, not the quality of a custom
+prompt. Where a hosted API refuses part of the decoding contract, the
+registry declares the deviation and its reason, the adapter omits exactly
+those parameters, and the receipt records what was actually sent. Current
+declared deviations are:
 
-**A dedicated translation model gets its own published template instead**, for
-the same reason the sequence-to-sequence anchors get their own control tokens
-(NLLB forced-BOS target code, Opus-MT `>>xxx<<`, MADLAD `<2xx>`): it was never
-trained to follow instructions, so handing it ours measures our misuse. This
-is not a loophole for tuning - the template must be the one the model's own
-card publishes, it is committed in the registry, and each receipt records the
-exact template and its hash.
+- `gemini-3.6-flash`: the API does not receive `temperature` or `top_p`.
+- `deepseek-v4-pro` and `kimi-k3`: reasoning cannot be disabled, so their
+  receipts and leaderboard rows disclose that difference.
 
-The case that forced the rule: SalamandraTA's card says outright that it
-"lacks chat capabilities and has not been trained with any chat instructions".
-Given the shared prompt it translated the instruction into Irish and then
-translated the sentence, so every line began with "níl aon luachana, níl aon
-nótaí" ("no quotes, no notes"). That is a measurement of the harness, not of
-the model. It now receives its documented format
-(`Translate the following text from {source} into {target}.` then the labelled
-source and target lines) at its card's beam width.
+## The v3 panel
 
-Dedicated MT *services* are called through their native interface with no
-prompt and no decoding parameters, because they expose none.
+Systems are chosen before any v3 Celtic score is seen and frozen for the
+edition:
 
-**Forced deviations are declared, not hidden.** Where a provider refuses part
-of the decoding contract, the registry declares the deviation and its reason,
-the adapter omits exactly those parameters, and the receipt records what was
-actually sent. Current deviations:
-
-- `gemini-3.6-flash`: Google deprecated `temperature` and `top_p`; the API
-  ignores them and will reject them in future models, so they are not sent.
-- `deepseek-v4-pro` and `kimi-k3` are reasoning models whose reasoning cannot
-  be disabled. Their rows are flagged; they are not decoding-identical to a
-  non-reasoning model and no amount of parameter-setting makes them so.
-
-## The panel
-
-Systems are chosen by role, before any Celtic score is seen, and frozen for
-the edition:
-
-| Role | Systems |
+| System ID | Display name |
 | --- | --- |
-| General-purpose, flagship | GPT-5.6 Sol, Claude Opus 5, Gemini 3.6 Flash, DeepSeek V4 Pro, Kimi K3, Qwen3.7 Max |
-| General-purpose, efficient | GPT-5.6 Luna, Claude Haiku 4.5, DeepSeek V4 Flash |
-| Dedicated MT services | Google Cloud Translation NMT, Google Cloud Translation LLM, DeepL, Azure AI Translator, Amazon Translate, Alibaba Cloud MT |
-| Open-weight MT | Opus-MT en-cel/cel-en, MADLAD-400 3B, NLLB-200 600M, TranslateGemma 4B, SalamandraTA 7B, Tiny Aya Water |
-| Open-weight general | Qwen3.5 9B |
+| `gpt-5.6-sol` | GPT-5.6 Sol |
+| `claude-opus-5` | Claude Opus 5 |
+| `gemini-3.6-flash` | Gemini 3.6 Flash |
+| `deepseek-v4-pro` | DeepSeek V4 Pro |
+| `kimi-k3` | Kimi K3 |
+| `qwen3.7-max` | Qwen3.7 Max |
 
-Coverage rules differ by role, and the difference is deliberate:
+All six systems run all six Celtic languages in both directions. There are no
+coverage exceptions inside the panel: a missing credential or invalid model
+pin leaves the edition incomplete rather than shrinking a system's matrix.
 
-- **General-purpose models are run on all six languages.** No vendor
-  publishes a Celtic support contract for them, so their coverage is exactly
-  what the benchmark is for.
-- **Dedicated MT services are run only on the languages in their own current
-  published language list.** Anything else is refused before a request is
-  made, and shows as `n/a` on the leaderboard rather than as a score of zero.
-  A refusal is a coverage fact; a zero would be a fabricated measurement.
-- **A registered system that has not run yet says so.** The leaderboard's
-  coverage table separates `ok` (scored) from `.` (runnable, not yet run) from
-  `n/a` (not offered). Registration is a commitment to run a system, not a
-  claim to have run it. Two reasons a cell currently sits at `.`: no
-  credentials, or local weights whose throughput makes a full pass
-  impractical on the machine at hand (a 7B causal model takes about 90 seconds
-  per line here, so one FLORES direction pair is roughly 50 hours). Neither is
-  ever resolved by publishing a partial row.
+For each system the full matrix is:
 
-Current dedicated-MT coverage: Alibaba ga/cy/br/gv/kw (the only commercial
-API whose list contains Manx and Cornish), Google NMT ga/cy/gd/br, DeepL
-ga/cy/br, Google Translation LLM cy with ga/gd experimental, Azure ga/cy,
-Amazon ga/cy. Alibaba's `sco` is Scots, a different language, and is never
-substituted for Scottish Gaelic.
+| Corpus | Runs | Sentence requests |
+| --- | ---: | ---: |
+| FLORES-200 | 6 | 6,072 |
+| Tatoeba | 12 | 17,490 |
+| `trackb-2026q3` | 6 | 1,444 |
+| **Per system** | **24** | **25,006** |
+| **Six-system total** | **144** | **150,036** |
 
-Google appears three times on purpose, as three different products: the
-Gemini API (a general model prompted to translate), Cloud Translation NMT (a
-dedicated MT model), and Cloud Translation LLM (a translation-tuned model
-inside Cloud Translation Advanced). They are not interchangeable and are
-never merged into one row.
-
-**Grok is absent by exclusion, not oversight.** xAI's terms prohibit using
-the service to benchmark it. It will be added if xAI permits it in writing.
+A roster or model-pin change happens only at an edition boundary. First
+archive the outgoing leaderboard and scores, then bump `method_version`,
+update the registry and changelog, validate every hosted pin, and rerun every
+system across the full matrix. Old receipts remain historical evidence but
+cannot contribute to the new edition.
 
 ## Systems and pins
 
-The registry (`celticbench/registry.py`) is fail-closed: unregistered
-systems and unsupported language/direction combinations refuse to run.
-Hosted model IDs carry a pin status (`verified` / `provisional` / `alias`);
-`bench.py doctor` validates every pin against the provider's live model list
-and suggests corrections. Moving aliases (`*-latest`) are not accepted as
-pins: an alias that changes mid-edition produces two incomparable rows with
-the same name. Receipts record the model ID the API *reported*, not just the
-one requested, and a run where the vendor reported more than one model ID is
-flagged rather than averaged.
+The registry (`celticbench/registry.py`) is fail-closed: unregistered systems
+and combinations outside the edition matrix refuse to run. Every v3
+system uses a hosted model ID with a pin status of `verified` or `provisional`,
+and `bench.py doctor` validates the requested ID against the live provider
+model list before a full run. Moving `*-latest` aliases are never accepted as
+edition pins: a model that changes during an edition would create incomparable
+rows under one name.
 
-Local systems are pinned to immutable Hugging Face commit SHAs and never
-change; they anchor the table across years while hosted models churn. Gated
-weights (TranslateGemma, Tiny Aya) are downloaded only with a token whose
-holder has accepted the licence; the harness never fetches them anonymously.
-
-A system flagged `benchmark-only` (NLLB-200 and Tiny Aya, both CC-BY-NC) is
-scored as a reference point and is not usable in any product; the flag is
-printed in every table it appears in.
+Receipts record the model ID reported by the API, not only the requested ID.
+A run that reports multiple model IDs is flagged rather than averaged, and a
+reported ID that violates the edition pin cannot silently become a published
+score.
 
 ## Receipts
 

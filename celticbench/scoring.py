@@ -33,8 +33,8 @@ from .lib import (
     parse_hyp_name, read_lines, receipt_path, runtime_versions, sha256_json,
     verify_manifest,
 )
-from .prompt import template_sha256
-from .registry import SYSTEMS, supported, uses_prompt
+from .prompt import PROMPT_SHA256
+from .registry import SYSTEMS, supported
 
 # A hypothesis whose length is wildly out of step with its source is broken
 # even when no reference exists: truncation on one side, a bolted-on
@@ -209,7 +209,7 @@ def verify_receipt(hyp_file: str) -> tuple[dict[str, Any] | None, str | None]:
     if receipt.get("eval_reference_sha256") != file_sha256(reference_path):
         return None, "eval reference file changed since this run"
 
-    if uses_prompt(entry) and receipt.get("prompt_sha256") != template_sha256(entry):
+    if receipt.get("prompt_sha256") != PROMPT_SHA256:
         return None, "prompt changed since this run; that is a new leaderboard version"
     if receipt.get("decoding_declared_sha256") != sha256_json(entry["decoding"]):
         return None, "declared decoding changed since this run; re-run the system"

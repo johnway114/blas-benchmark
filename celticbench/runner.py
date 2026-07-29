@@ -24,16 +24,14 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from typing import Any
 
-from . import hf_local, providers
+from . import providers
 from .lib import (
     CACHE_DIR, METHOD_VERSION, SCHEMA_RECEIPT, canonical_json, direction_io,
     file_sha256, harness_version, hyp_path, lang_pair_names, read_lines,
     receipt_path, runtime_versions, sha256_json, verify_manifest, write_lines,
 )
-from .prompt import render_with, template_for, template_sha256
-from .registry import (
-    get_system, resolve_model, resolve_revision, supported, uses_prompt,
-)
+from .prompt import PROMPT_SHA256, PROMPT_TEMPLATE, render
+from .registry import get_system, supported
 
 RETRIES = 4
 DEFAULT_SLEEP = 0.15
@@ -46,25 +44,36 @@ def _cache_file(system_id: str) -> str:
 
 
 def _load_cache(system_id: str) -> dict[str, dict[str, Any]]:
-    """key -> {v, m, d, u}. Records without provenance are ignored.
-
-    A pre-v2 cache line carries only the text. Reusing it would produce a
-    receipt that cannot say which model wrote the line, so it is treated as a
-    miss; the cache is a local optimisation, never published state.
-    """
+    """Load only complete records produced by the current method version."""
     cache: dict[str, dict[str, Any]] = {}
     path = _cache_file(system_id)
     if not os.path.exists(path):
         return cache
+    required = {"k", "v", "m", "d", "u", "method_version", "deviations"}
     with open(path, encoding="utf-8") as handle:
         for line in handle:
             try:
                 record = json.loads(line)
-                if "m" not in record:
+                if (
+                    not isinstance(record, dict)
+                    or not required.issubset(record)
+                    or record["method_version"] != METHOD_VERSION
+                    or not isinstance(record["k"], str)
+                    or not isinstance(record["v"], str)
+                    or not isinstance(record["m"], str)
+                    or not isinstance(record["d"], dict)
+                    or not isinstance(record["u"], dict)
+                    or not isinstance(record["deviations"], list)
+                    or not {
+                        "prompt_tokens", "completion_tokens", "total_tokens",
+                    }.issubset(record["u"])
+                    or not all(isinstance(value, int) for value in record["u"].values())
+                    or not all(isinstance(item, str) for item in record["deviations"])
+                ):
                     continue
                 cache[record["k"]] = record
-            except (json.JSONDecodeError, KeyError):
-                continue  # torn tail line from a crash; harmless
+            except (json.JSONDecodeError, KeyError, TypeError):
+                continue  # legacy, incomplete, or torn cache rows are misses
     return cache
 
 
@@ -75,6 +84,8 @@ def _append_cache(system_id: str, key: str, translation: providers.Translation) 
         "m": translation.model_reported,
         "d": translation.decoding_used,
         "u": translation.usage,
+        "method_version": METHOD_VERSION,
+        "deviations": list(translation.deviations),
     }
     os.makedirs(CACHE_DIR, exist_ok=True)
     with _CACHE_LOCK:
@@ -85,8 +96,9 @@ def _append_cache(system_id: str, key: str, translation: providers.Translation) 
 
 def _cache_key(entry: dict[str, Any], direction: str, lang: str, text: str) -> str:
     return sha256_json({
-        "model": resolve_model(entry, direction),
-        "prompt_sha256": template_sha256(entry) if uses_prompt(entry) else None,
+        "method_version": METHOD_VERSION,
+        "model": entry["model"],
+        "prompt_sha256": PROMPT_SHA256,
         "decoding": entry["decoding"],
         "direction": direction,
         "lang": lang,
@@ -94,12 +106,9 @@ def _cache_key(entry: dict[str, Any], direction: str, lang: str, text: str) -> s
     })
 
 
-def _translate_one(entry: dict[str, Any], lang: str, direction: str, text: str) -> providers.Translation:
-    if uses_prompt(entry):
-        prompt = render_with(template_for(entry), lang, direction, text)
-        return providers.translate_chat(entry, prompt)
-    source, target = providers.mt_codes(entry, lang, direction)
-    return providers.translate_mt(entry, text, source, target)
+def _translate_one(entry: dict[str, Any], lang: str, direction: str,
+                   text: str) -> providers.Translation:
+    return providers.translate_chat(entry, render(lang, direction, text))
 
 
 class _Provenance:
@@ -128,15 +137,6 @@ class _Provenance:
             else:
                 self.requests += 1
 
-    def record_local(self, model: str, decoding: dict[str, Any]) -> None:
-        """Local inference: provenance without usage.
-
-        `requests` counts hosted-API calls, which is what `plan` estimates and
-        what a bill is made of. A local batch is neither a request nor a cache
-        hit, and counting it as one would misstate both.
-        """
-        self.models.add(model)
-        self.decodings[canonical_json(decoding)] = decoding
 
     def model_reported(self, fallback: str) -> str:
         if not self.models:
@@ -165,7 +165,10 @@ def _run_hosted(entry: dict[str, Any], system_id: str, sources: list[str], lang:
             pending.append((index, key, text))
             continue
         outputs[index] = record["v"]
-        provenance.record(record["m"], record.get("d") or {}, record.get("u") or {}, cached=True)
+        provenance.record(
+            record["m"], record["d"], record["u"],
+            tuple(record["deviations"]), cached=True,
+        )
 
     if not pending:
         print(f"  {len(sources)} lines served from cache")
@@ -230,13 +233,9 @@ def run_system(system_id: str, corpus: str, lang: str, direction: str,
     print(f"run {system_id}: {corpus}.{lang} {src_name} -> {tgt_name}, n={len(sources)}")
 
     provenance = _Provenance(dict(entry["decoding"]))
-    if entry["provider"] == "hf_local":
-        outputs, model_reported = hf_local.translate_batch(entry, sources, lang, direction)
-        fails = 0
-        provenance.record_local(model_reported, dict(entry["decoding"]))
-    else:
-        outputs, fails = _run_hosted(entry, system_id, sources, lang, direction,
-                                     sleep, workers, provenance)
+    outputs, fails = _run_hosted(
+        entry, system_id, sources, lang, direction, sleep, workers, provenance,
+    )
 
     out_path = hyp_path(corpus, lang, direction, system_id, limit)
     write_lines(out_path, outputs)
@@ -249,13 +248,11 @@ def run_system(system_id: str, corpus: str, lang: str, direction: str,
         "provider": entry["provider"],
         "vendor": entry["vendor"],
         "tier": entry["tier"],
-        "model_requested": resolve_model(entry, direction),
-        "model_reported": provenance.model_reported(resolve_model(entry, direction)),
+        "model_requested": entry["model"],
+        "model_reported": provenance.model_reported(entry["model"]),
         "model_reported_variants": sorted(provenance.models),
-        "revision": resolve_revision(entry, direction),
         "pin_status": entry["pin_status"],
         "license": entry["license"],
-        "benchmark_only": bool(entry.get("benchmark_only", False)),
         "reasoning": entry.get("reasoning"),
         "corpus": corpus,
         "lang": lang,
@@ -264,8 +261,8 @@ def run_system(system_id: str, corpus: str, lang: str, direction: str,
         "limit": limit,
         "partial_slice": limit is not None,
         "fails": fails,
-        "prompt_template": template_for(entry) if uses_prompt(entry) else None,
-        "prompt_sha256": template_sha256(entry) if uses_prompt(entry) else None,
+        "prompt_template": PROMPT_TEMPLATE,
+        "prompt_sha256": PROMPT_SHA256,
         "decoding_declared": dict(entry["decoding"]),
         "decoding_declared_sha256": sha256_json(entry["decoding"]),
         "decoding": decoding_used,
