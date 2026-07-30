@@ -103,6 +103,80 @@ model:
 6. Publish the registry, hypotheses, receipts, scores and leaderboard
    together. Do not carry a receipt or score across the version boundary.
 
+## Publishing an edition to the website
+
+The board at `blasapp.com/research/benchmark/translation` renders one committed
+file. It never fetches this repo at build time: a site that can resolve a
+different edition than the one its build was checked against would publish
+numbers nobody verified together.
+
+`bench.py export` is the only supported way to produce that file. It carries
+every reading rule with the data -- whether an off-target rate is authoritative,
+whether a row may be ordered, how complete the edition is -- so the renderer
+never re-derives a method decision and cannot drift from LEADERBOARD.md.
+
+```bash
+.venv/bin/python bench.py score
+.venv/bin/python bench.py leaderboard
+.venv/bin/python bench.py export                      # scores/web.json, the public contract
+.venv/bin/python bench.py export --out ../blas/webApp/content/benchmark/celtic-translation.json
+```
+
+Commit `scores/web.json` here (it is the stable JSON endpoint third parties
+cite) and the copy in the web repo in the same session, so the two can never
+describe different editions.
+
+Order matters, and each step gates the next:
+
+1. **`score` first, always.** `export` reads `scores/scores.json` and does not
+   recompute anything. Exporting before scoring publishes the previous edition
+   under the new one's date.
+2. **Read the export's own summary line.** It prints
+   `edition <version> <status>: <n>/<expected> runs scored`. If that says
+   `in-progress` and you intended a launch, the matrix is short and the site
+   will correctly refuse to present it as final. Fix the runs, not the banner.
+3. **Check the excluded list.** `export` carries exclusions through to the site
+   verbatim. A run excluded for `prompt changed` or `eval input file changed`
+   belongs to an older method version and means the edition is not coherent.
+4. **Only then update the site.** The page derives its status banner, its
+   coverage grid and its social card from the export, so a stale file quietly
+   backdates all three.
+
+### Release order on launch day
+
+Publish in this order so that no link ever points at something that does not
+exist yet, and so the canonical numbers are live before anyone is invited to
+argue with them:
+
+1. Commit and push this repo: hypotheses, receipts, `scores/scores.json`,
+   `LEADERBOARD.md`, `scores/web.json`.
+2. Deploy the website with the refreshed export. Confirm the board's status
+   banner matches the edition you meant to ship, and open
+   `/research/benchmark/translation/opengraph-image` to confirm the social card
+   renders the same numbers as the page.
+3. Publish the write-up under `content/research/`. A results post is a snapshot
+   and says so: the board is canonical and the post is never edited to match a
+   later edition.
+4. Only then post externally. Every external link goes to the board, not to the
+   post, so the first thing a reader sees is the live edition with its caveats
+   attached.
+
+A results post carries, in this order: the finding box before any methodology,
+including at least one bullet that cuts against our own headline; the table
+with its incompleteness stated; method in brief with a link to the full method;
+findings by language and by direction; the integrity metrics named per system;
+the negative results and the ties; what this does not show; how to reproduce it;
+and the conflict-of-interest statement. Lead with the gap or the negative
+result, never with a superlative -- the qualified claim goes in the title.
+
+### Corrections after publication
+
+Never edit a number in place. Add a dated `CHANGELOG.md` entry saying what
+changed and what it invalidates, rerun `score`, `leaderboard` and `export`, and
+redeploy. If the correction changes a ranking, say so in the entry. A board that
+silently rewrites its own history cannot be cited, and being citable is the
+entire point of publishing one.
+
 ## Refresh cadence
 
 - **Quarterly**: seal a new Track B slice as above, retire and publish the

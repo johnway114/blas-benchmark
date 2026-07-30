@@ -108,6 +108,12 @@ def cmd_leaderboard(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_export(args: argparse.Namespace) -> int:
+    from celticbench.webexport import write
+    write(path=args.out)
+    return 0
+
+
 def cmd_qa(_args: argparse.Namespace) -> int:
     """Re-measure the built eval sets: corpus defects and detector reliability.
 
@@ -202,6 +208,12 @@ def main(argv: list[str] | None = None) -> int:
     p_board.add_argument("--archive", action="store_true",
                          help="also freeze a dated copy of the board and scores under archive/")
     p_board.set_defaults(func=cmd_leaderboard)
+
+    p_export = sub.add_parser("export",
+                              help="render scores/web.json, the published web data contract")
+    p_export.add_argument("--out", default=None,
+                          help="write somewhere other than scores/web.json")
+    p_export.set_defaults(func=cmd_export)
 
     p_qa = sub.add_parser("qa", help="rebuild manifests/corpus-qa.json from the eval sets")
     p_qa.set_defaults(func=cmd_qa)

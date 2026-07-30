@@ -12,6 +12,34 @@ Dates are the date of the change, not of the data.
 v3 is a clean edition boundary. No v1 or v2 score is comparable with v3, and
 every pre-v3 receipt is refused by v3 scoring rather than migrated.
 
+### Added - published web data contract (`bench.py export`)
+
+- `bench.py export` renders `scores/web.json`, schema `celticbench.web.v1`:
+  the edition's completeness, the panel with its pins and decoding
+  deviations, the prompt template, the metric signatures, the sealed Track B
+  slices including the languages with no viable publisher and their reasons,
+  and every scored row.
+- The export carries reading rules as data, not just numbers. Each row states
+  whether its off-target rate is `authoritative`, `advisory` or `unmeasured`,
+  and whether it is `rankable`. A renderer that re-derived those rules would
+  eventually disagree with `LEADERBOARD.md`, and then one number would mean
+  two things.
+- **Integrity now gates the comparison.** A published floor - off-target
+  below 1%, blank below 0.5%, copy below 2%, all lower-is-better - decides
+  whether a row may be presented as the best in its cell. A row that exceeds
+  it keeps its score and is marked, because chrF++ cannot distinguish a good
+  translation from fluent output in the wrong language. Off-target gates only
+  where the detector is authoritative for that language and corpus: on
+  Tatoeba its own false-positive rate on gold Celtic text reaches 5-9%, so
+  gating there would fail systems for the detector's errors. This changes no
+  score; it changes which score is allowed to be called a winner.
+- The export declares that v3 has no confidence intervals, one run per cell
+  and no significance test, so a consumer cannot present the ordering as a
+  ranking claim without contradicting the data it is rendering.
+
+Does not invalidate anything: `export` recomputes no metric and reads
+`scores/scores.json` as scoring wrote it.
+
 ### Changed - frontier-only panel
 
 - The live roster is now exactly `gpt-5.6-sol`, `claude-opus-5`,

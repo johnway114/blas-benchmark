@@ -71,6 +71,7 @@ cp .env.example .env          # add the six provider credentials
 .venv/bin/python bench.py run --all-ready
 .venv/bin/python bench.py score          # verify receipts, compute metrics
 .venv/bin/python bench.py leaderboard    # render LEADERBOARD.md
+.venv/bin/python bench.py export         # render scores/web.json, the published data contract
 ```
 
 Because the hypotheses are committed, `prepare` followed by `score` re-derives
@@ -111,6 +112,17 @@ model sees it:
 8. **Corpus defects are published too.** `manifests/corpus-qa.json` counts
    the duplicates, control characters and length outliers in the corpora we
    score against, rather than quietly cleaning them.
+9. **Failure modes gate the comparison.** A system that answers in English,
+   answers nothing, or echoes the source still earns a respectable chrF++.
+   A published floor - off-target below 1%, blank below 0.5%, copy below 2%,
+   all lower-is-better - decides whether a row may be presented as the best
+   in its cell. A row that exceeds it keeps its score and is marked, never
+   quietly dropped. Off-target gates only where the detector is authoritative
+   there, so no system is failed for the detector's own errors.
+10. **Every number the website shows comes from `bench.py export`.** The
+    renderer is handed the reading rules as data rather than re-deriving
+    them, because two implementations of one method eventually disagree and
+    then one published number means two different things.
 
 ## Licences
 

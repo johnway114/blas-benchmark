@@ -1,0 +1,1014 @@
+{
+  "corpora": [
+    {
+      "comparability": "comparable",
+      "id": "flores",
+      "label": "FLORES-200 devtest",
+      "note": "The public comparability anchor. Old enough to be in the training data of every system measured here, so it proves comparability, not generalization.",
+      "provenance": "professional human translations, CC-BY-SA 4.0",
+      "track": "A"
+    },
+    {
+      "comparability": "coverage-only",
+      "id": "tatoeba",
+      "label": "Tatoeba EN-pairs",
+      "note": "Coverage-only. Public, widely redistributed, and short; scores here are potentially contamination-inflated and do not transfer to document-length translation.",
+      "provenance": "community sentences, CC-BY 2.0 FR",
+      "track": "A"
+    },
+    {
+      "comparability": "fresh",
+      "cutoff": "2026-02-16",
+      "id": "trackb-2026q3",
+      "label": "Fresh harvest 2026q3",
+      "note": "Bilingual text published after the newest benchmarked training cutoff, hash-committed before any model saw it. Institutional register only: it says nothing about conversational or literary translation.",
+      "provenance": "official publishers, sealed before any model saw it",
+      "sealed_utc": "2026-07-29T19:43:53+00:00",
+      "track": "B"
+    }
+  ],
+  "corpus_qa": {
+    "languages": null,
+    "measured_utc": null
+  },
+  "coverage": [
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-sol"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-sol"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-sol"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-sol"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-sol"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-sol"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-sol"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-sol"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-sol"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-sol"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-sol"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "gpt-5.6-sol"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "claude-opus-5"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "claude-opus-5"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "claude-opus-5"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "claude-opus-5"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "claude-opus-5"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "claude-opus-5"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "claude-opus-5"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "claude-opus-5"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "claude-opus-5"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "claude-opus-5"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "claude-opus-5"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "claude-opus-5"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "gemini-3.6-flash"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "gemini-3.6-flash"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "gemini-3.6-flash"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "gemini-3.6-flash"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "gemini-3.6-flash"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "gemini-3.6-flash"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "gemini-3.6-flash"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "gemini-3.6-flash"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "gemini-3.6-flash"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "gemini-3.6-flash"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "gemini-3.6-flash"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "gemini-3.6-flash"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-pro"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-pro"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-pro"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-pro"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-pro"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-pro"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-pro"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-pro"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-pro"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-pro"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-pro"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "deepseek-v4-pro"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "kimi-k3"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "kimi-k3"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "kimi-k3"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "kimi-k3"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "kimi-k3"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "kimi-k3"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "kimi-k3"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "kimi-k3"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "kimi-k3"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "kimi-k3"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "kimi-k3"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "kimi-k3"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.7-max"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "ga",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.7-max"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.7-max"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "cy",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.7-max"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.7-max"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gd",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.7-max"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.7-max"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "br",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.7-max"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.7-max"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "gv",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.7-max"
+    },
+    {
+      "direction": "en-xx",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.7-max"
+    },
+    {
+      "direction": "xx-en",
+      "lang": "kw",
+      "reason": null,
+      "supported": true,
+      "system": "qwen3.7-max"
+    }
+  ],
+  "direction_labels": {
+    "en-xx": "English into Celtic",
+    "xx-en": "Celtic into English"
+  },
+  "edition": {
+    "directions": [
+      "en-xx",
+      "xx-en"
+    ],
+    "generated_utc": "2026-07-29T22:43:37+00:00",
+    "languages": 6,
+    "method_version": "v3",
+    "requests_expected": 150036,
+    "runs_expected": 144,
+    "runs_scored": 0,
+    "status": "not-started",
+    "systems": 6
+  },
+  "excluded": [],
+  "integrity_floor": {
+    "blank_rate": 0.005,
+    "copy_rate": 0.02,
+    "note": "All three are lower-is-better. A row that exceeds any of them is still published with its score, and is excluded from winning its cell: an overlap metric cannot tell the difference between a good translation and fluent output in the wrong language, so the integrity rates gate the comparison rather than sitting in an appendix.",
+    "off_target_rate": 0.01
+  },
+  "languages": [
+    {
+      "code": "ga",
+      "has_flores": true,
+      "name": "Irish",
+      "scored_corpora": [],
+      "trackb": {
+        "trackb-2026q3": {
+          "documents": 11,
+          "n": 300,
+          "reason": null,
+          "rejected": {
+            "duplicate": 59,
+            "identical": 31,
+            "too_long": 30,
+            "too_short": 595
+          },
+          "sources": [
+            "eurlex-oj-secondary-legislation"
+          ],
+          "status": "sealed"
+        }
+      }
+    },
+    {
+      "code": "cy",
+      "has_flores": true,
+      "name": "Welsh",
+      "scored_corpora": [],
+      "trackb": {
+        "trackb-2026q3": {
+          "documents": 32,
+          "n": 300,
+          "reason": null,
+          "rejected": {
+            "duplicate": 5,
+            "too_long": 1,
+            "too_short": 7
+          },
+          "sources": [
+            "gov-wales-announcements"
+          ],
+          "status": "sealed"
+        }
+      }
+    },
+    {
+      "code": "gd",
+      "has_flores": true,
+      "name": "Scottish Gaelic",
+      "scored_corpora": [],
+      "trackb": {
+        "trackb-2026q3": {
+          "documents": 10,
+          "n": 122,
+          "reason": null,
+          "rejected": {
+            "identical": 25,
+            "length_ratio": 14,
+            "too_short": 46
+          },
+          "sources": [
+            "bord-na-gaidhlig-news",
+            "mg-alba-news"
+          ],
+          "status": "sealed"
+        }
+      }
+    },
+    {
+      "code": "br",
+      "has_flores": false,
+      "name": "Breton",
+      "scored_corpora": [],
+      "trackb": {
+        "trackb-2026q3": {
+          "documents": null,
+          "n": null,
+          "reason": "Breton public-sector bilingualism is French-Breton, not English-Breton. Ofis Publik ar Brezhoneg (brezhoneg.bzh) serves Breton and French only -- its /en/ path 404s -- and Region Bretagne (bretagne.bzh) refuses automated requests outright. No official publisher of parallel English/Breton text was found.",
+          "rejected": {},
+          "sources": [],
+          "status": "unavailable"
+        }
+      }
+    },
+    {
+      "code": "gv",
+      "has_flores": false,
+      "name": "Manx",
+      "scored_corpora": [],
+      "trackb": {
+        "trackb-2026q3": {
+          "documents": null,
+          "n": null,
+          "reason": "The Isle of Man Government publishes in English; gov.im has no Manx language section to mirror. Culture Vannin, the statutory Manx culture body, publishes about Manx in English rather than issuing the same document in both languages. No dated parallel English/Manx stream exists.",
+          "rejected": {},
+          "sources": [],
+          "status": "unavailable"
+        }
+      }
+    },
+    {
+      "code": "kw",
+      "has_flores": false,
+      "name": "Cornish",
+      "scored_corpora": [],
+      "trackb": {
+        "trackb-2026q3": {
+          "documents": null,
+          "n": null,
+          "reason": "Cornwall Council's Cornish language pages are a small static set with no Cornish-language mirror of its dated publications, and no Cornish public body issues a parallel English/Cornish publication stream. Cornish revival material is produced as Cornish-only or English-only.",
+          "rejected": {},
+          "sources": [],
+          "status": "unavailable"
+        }
+      }
+    }
+  ],
+  "lid_validation": {
+    "english": {
+      "flores": {
+        "cy": {
+          "false_positive_rate": 0.0,
+          "n": 1012,
+          "recognized": 1.0
+        },
+        "ga": {
+          "false_positive_rate": 0.0,
+          "n": 1012,
+          "recognized": 1.0
+        },
+        "gd": {
+          "false_positive_rate": 0.0,
+          "n": 1012,
+          "recognized": 1.0
+        }
+      },
+      "tatoeba": {
+        "br": {
+          "false_positive_rate": 0.0025,
+          "n": 394,
+          "recognized": 0.967
+        },
+        "cy": {
+          "false_positive_rate": 0.0061,
+          "n": 1631,
+          "recognized": 0.9834
+        },
+        "ga": {
+          "false_positive_rate": 0.0047,
+          "n": 2339,
+          "recognized": 0.9863
+        },
+        "gd": {
+          "false_positive_rate": 0.0052,
+          "n": 961,
+          "recognized": 0.9875
+        },
+        "gv": {
+          "false_positive_rate": 0.0,
+          "n": 18,
+          "recognized": 1.0
+        },
+        "kw": {
+          "false_positive_rate": 0.0047,
+          "n": 3402,
+          "recognized": 0.99
+        }
+      },
+      "trackb-2026q3": {
+        "cy": {
+          "false_positive_rate": 0.0,
+          "n": 300,
+          "recognized": 1.0
+        },
+        "ga": {
+          "false_positive_rate": 0.0067,
+          "n": 300,
+          "recognized": 0.96
+        },
+        "gd": {
+          "false_positive_rate": 0.0082,
+          "n": 122,
+          "recognized": 0.9262
+        }
+      }
+    },
+    "languages": {
+      "br": {
+        "tatoeba": {
+          "false_positive_rate": 0.066,
+          "n": 394,
+          "recognized": 0.736
+        }
+      },
+      "cy": {
+        "flores": {
+          "false_positive_rate": 0.0,
+          "n": 1012,
+          "recognized": 0.9822
+        },
+        "tatoeba": {
+          "false_positive_rate": 0.0938,
+          "n": 1631,
+          "recognized": 0.5996
+        },
+        "trackb-2026q3": {
+          "false_positive_rate": 0.0067,
+          "n": 300,
+          "recognized": 0.9667
+        }
+      },
+      "ga": {
+        "flores": {
+          "false_positive_rate": 0.0,
+          "n": 1012,
+          "recognized": 0.9615
+        },
+        "tatoeba": {
+          "false_positive_rate": 0.0851,
+          "n": 2339,
+          "recognized": 0.6896
+        },
+        "trackb-2026q3": {
+          "false_positive_rate": 0.0367,
+          "n": 300,
+          "recognized": 0.8233
+        }
+      },
+      "gd": {
+        "flores": {
+          "false_positive_rate": 0.004,
+          "n": 1012,
+          "recognized": 0.8864
+        },
+        "tatoeba": {
+          "false_positive_rate": 0.0656,
+          "n": 961,
+          "recognized": 0.6285
+        },
+        "trackb-2026q3": {
+          "false_positive_rate": 0.0082,
+          "n": 122,
+          "recognized": 0.8607
+        }
+      },
+      "gv": {
+        "tatoeba": {
+          "false_positive_rate": 0.2778,
+          "n": 18,
+          "recognized": 0.0556
+        }
+      },
+      "kw": {
+        "tatoeba": {
+          "false_positive_rate": 0.0561,
+          "n": 3402,
+          "recognized": 0.766
+        }
+      }
+    },
+    "model": "lid.176.ftz",
+    "model_sha256": "8f3472cfe8738a7b6099e8e999c3cbfae0dcd15696aac7d7738a8039db603e83",
+    "threshold": 0.05
+  },
+  "panel": [
+    {
+      "decoding_deviation": null,
+      "id": "claude-opus-5",
+      "label": "Claude Opus 5",
+      "license": "proprietary API",
+      "model": "claude-opus-5",
+      "pin_status": "verified",
+      "provider": "anthropic",
+      "reasoning": false,
+      "tier": "flagship-chat",
+      "vendor": "Anthropic"
+    },
+    {
+      "decoding_deviation": null,
+      "id": "deepseek-v4-pro",
+      "label": "DeepSeek V4 Pro",
+      "license": "proprietary API",
+      "model": "deepseek-v4-pro",
+      "pin_status": "verified",
+      "provider": "openai_compat",
+      "reasoning": true,
+      "tier": "flagship-chat",
+      "vendor": "DeepSeek"
+    },
+    {
+      "decoding_deviation": null,
+      "id": "gpt-5.6-sol",
+      "label": "GPT-5.6 Sol",
+      "license": "proprietary API",
+      "model": "gpt-5.6-sol",
+      "pin_status": "verified",
+      "provider": "openai_compat",
+      "reasoning": false,
+      "tier": "flagship-chat",
+      "vendor": "OpenAI"
+    },
+    {
+      "decoding_deviation": {
+        "omits": [
+          "temperature",
+          "top_p"
+        ],
+        "reason": "Gemini deprecated temperature/top_p; the API ignores them and will error on them in future models, so they are not sent"
+      },
+      "id": "gemini-3.6-flash",
+      "label": "Gemini 3.6 Flash",
+      "license": "proprietary API",
+      "model": "gemini-3.6-flash",
+      "pin_status": "verified",
+      "provider": "gemini",
+      "reasoning": false,
+      "tier": "flagship-chat",
+      "vendor": "Google"
+    },
+    {
+      "decoding_deviation": null,
+      "id": "kimi-k3",
+      "label": "Kimi K3",
+      "license": "proprietary API",
+      "model": "kimi-k3",
+      "pin_status": "verified",
+      "provider": "openai_compat",
+      "reasoning": true,
+      "tier": "flagship-chat",
+      "vendor": "Moonshot AI"
+    },
+    {
+      "decoding_deviation": null,
+      "id": "qwen3.7-max",
+      "label": "Qwen3.7 Max",
+      "license": "proprietary API",
+      "model": "qwen3.7-max",
+      "pin_status": "provisional",
+      "provider": "openai_compat",
+      "reasoning": false,
+      "tier": "flagship-chat",
+      "vendor": "Alibaba"
+    }
+  ],
+  "provenance": {
+    "harness_versions": [],
+    "langid": {
+      "confidence_threshold": 0.5,
+      "model": "lid.176.ftz",
+      "model_sha256": "8f3472cfe8738a7b6099e8e999c3cbfae0dcd15696aac7d7738a8039db603e83"
+    },
+    "metric_signatures": {},
+    "prompt_template": "Translate the following {src_name} sentence into {tgt_name}. Output only the {tgt_name} translation as plain text: no quotes, no notes, no explanation, no alternatives.\n\n{text}",
+    "repo": "https://github.com/johnway114/blas-benchmark",
+    "runtime": {
+      "python": "3.14.3",
+      "sacrebleu": "2.6.0"
+    }
+  },
+  "results": [],
+  "schema": "celticbench.web.v1",
+  "statistics": {
+    "confidence_intervals": false,
+    "note": "Single-run point estimates. v3 does not bootstrap, publishes no confidence intervals, and runs no significance test, so adjacent scores are not distinguishable and the ordering within a table is presentation, not a ranking claim. Treat only large, consistent gaps as real.",
+    "planned": "Paired bootstrap resampling with 95% intervals and significance-tested tie groups is the next method change; it will bump the method version because it changes how every row is read.",
+    "runs_per_cell": 1,
+    "significance_testing": false
+  },
+  "trackb": {
+    "trackb-2026q3": {
+      "cutoff": "2026-02-16",
+      "extractor_version": "trackb-extract-1",
+      "harvest_date": "2026-07-29",
+      "languages": {
+        "br": {
+          "documents": null,
+          "n": null,
+          "reason": "Breton public-sector bilingualism is French-Breton, not English-Breton. Ofis Publik ar Brezhoneg (brezhoneg.bzh) serves Breton and French only -- its /en/ path 404s -- and Region Bretagne (bretagne.bzh) refuses automated requests outright. No official publisher of parallel English/Breton text was found.",
+          "rejected": {},
+          "sources": [],
+          "status": "unavailable"
+        },
+        "cy": {
+          "documents": 32,
+          "n": 300,
+          "reason": null,
+          "rejected": {
+            "duplicate": 5,
+            "too_long": 1,
+            "too_short": 7
+          },
+          "sources": [
+            "gov-wales-announcements"
+          ],
+          "status": "sealed"
+        },
+        "ga": {
+          "documents": 11,
+          "n": 300,
+          "reason": null,
+          "rejected": {
+            "duplicate": 59,
+            "identical": 31,
+            "too_long": 30,
+            "too_short": 595
+          },
+          "sources": [
+            "eurlex-oj-secondary-legislation"
+          ],
+          "status": "sealed"
+        },
+        "gd": {
+          "documents": 10,
+          "n": 122,
+          "reason": null,
+          "rejected": {
+            "identical": 25,
+            "length_ratio": 14,
+            "too_short": 46
+          },
+          "sources": [
+            "bord-na-gaidhlig-news",
+            "mg-alba-news"
+          ],
+          "status": "sealed"
+        },
+        "gv": {
+          "documents": null,
+          "n": null,
+          "reason": "The Isle of Man Government publishes in English; gov.im has no Manx language section to mirror. Culture Vannin, the statutory Manx culture body, publishes about Manx in English rather than issuing the same document in both languages. No dated parallel English/Manx stream exists.",
+          "rejected": {},
+          "sources": [],
+          "status": "unavailable"
+        },
+        "kw": {
+          "documents": null,
+          "n": null,
+          "reason": "Cornwall Council's Cornish language pages are a small static set with no Cornish-language mirror of its dated publications, and no Cornish public body issues a parallel English/Cornish publication stream. Cornish revival material is produced as Cornish-only or English-only.",
+          "rejected": {},
+          "sources": [],
+          "status": "unavailable"
+        }
+      },
+      "limit_per_lang": 300,
+      "sealed_utc": "2026-07-29T19:43:53+00:00",
+      "slice": "2026q3"
+    }
+  }
+}
